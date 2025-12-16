@@ -1,0 +1,737 @@
+# Dutch translation for Shopvision
+# Copyright (C) 2024 Tim Schouwink
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Shopvision 3.0.0\n"
+"Report-Msgid-Bugs-To: https://shopvision.ai\n"
+"POT-Creation-Date: 2024-12-16T00:00:00+00:00\n"
+"PO-Revision-Date: 2024-12-16T00:00:00+00:00\n"
+"Last-Translator: Tim Schouwink\n"
+"Language-Team: Dutch\n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Shopvision\n"
+"X-Domain: shopvision\n"
+
+#: shopvision.php
+msgid "Shopvision requires WooCommerce to be installed and active."
+msgstr "Shopvision vereist dat WooCommerce geïnstalleerd en actief is."
+
+#: includes/admin/class-mrv-settings.php - Tabs
+msgid "General"
+msgstr "Algemeen"
+
+msgid "Styling"
+msgstr "Styling"
+
+msgid "Products"
+msgstr "Producten"
+
+msgid "Generations"
+msgstr "Generaties"
+
+#: includes/admin/class-mrv-settings.php - General tab
+msgid "Settings saved"
+msgstr "Instellingen opgeslagen"
+
+msgid "General Settings"
+msgstr "Algemene instellingen"
+
+msgid "Configure the basic settings"
+msgstr "Configureer de basisinstellingen voor Shopvision"
+
+msgid "API Configuration"
+msgstr "API configuratie"
+
+msgid "Connected"
+msgstr "Verbonden"
+
+msgid "Not configured"
+msgstr "Niet geconfigureerd"
+
+msgid "Google Gemini API Key"
+msgstr "Google Gemini API key"
+
+msgid "Show/hide API key"
+msgstr "Toon/verberg API key"
+
+msgid "Test API Key"
+msgstr "Test API Key"
+
+msgid "Enter your Google Gemini API key"
+msgstr "Voer je Google Gemini API key in"
+
+msgid "Create API key"
+msgstr "API key aanmaken"
+
+msgid "Industry Preset"
+msgstr "Branche preset"
+
+msgid "Choose a preset that matches your product type"
+msgstr "Kies een preset die past bij jouw producttype"
+
+msgid "Interior"
+msgstr "Interieur"
+
+msgid "Furniture, decoration, lighting"
+msgstr "Meubels, decoratie, verlichting"
+
+msgid "Fashion"
+msgstr "Fashion"
+
+msgid "Clothing, shoes, accessories"
+msgstr "Kleding, schoenen, accessoires"
+
+msgid "Custom"
+msgstr "Custom"
+
+msgid "Write your own prompt"
+msgstr "Eigen prompt schrijven"
+
+msgid "Custom Prompt"
+msgstr "Custom prompt"
+
+msgid "Write your own prompt for the AI"
+msgstr "Schrijf je eigen prompt voor de AI"
+
+msgid "Display"
+msgstr "Weergave"
+
+msgid "Button Text"
+msgstr "Knoptekst"
+
+msgid "The text shown on the visualizer button"
+msgstr "De tekst die op de visualizer knop wordt getoond"
+
+msgid "Button Position"
+msgstr "Button positie"
+
+msgid "Automatic (after add to cart button)"
+msgstr "Automatisch (na winkelwagen knop)"
+
+msgid "Automatic (below product form)"
+msgstr "Automatisch (onder product formulier)"
+
+msgid "Manual (shortcode)"
+msgstr "Handmatig (shortcode)"
+
+msgid "Choose where the button is placed"
+msgstr "Bepaal waar de button wordt geplaatst"
+
+msgid "Shortcode"
+msgstr "Shortcode"
+
+msgid "Place this shortcode"
+msgstr "Plaats deze shortcode in je thema template"
+
+msgid "Add to Cart CTA"
+msgstr "Add to cart CTA"
+
+msgid "Show order button after visualization"
+msgstr "Toon bestelknop na visualisatie"
+
+msgid "Shows an order button after a successful visualization"
+msgstr "Toont een bestelknop na een succesvolle visualisatie"
+
+msgid "Order Button Text"
+msgstr "Tekst bestelknop"
+
+msgid "Order This"
+msgstr "Deze bestellen"
+
+msgid "Download Button Text"
+msgstr "Tekst downloadknop"
+
+msgid "Download"
+msgstr "Downloaden"
+
+msgid "The download button becomes secondary"
+msgstr "De downloadknop wordt secundair (grijs) wanneer de bestelknop actief is"
+
+msgid "Example Gallery"
+msgstr "Voorbeeldgalerij"
+
+msgid "Show examples in modal"
+msgstr "Toon voorbeelden in modal"
+
+msgid "Shows inspiring example images"
+msgstr "Toont inspirerende voorbeeldafbeeldingen boven de upload zone"
+
+msgid "Upload 3 example images"
+msgstr "Upload 3 voorbeeldafbeeldingen van visualisatieresultaten"
+
+msgid "Remove"
+msgstr "Verwijderen"
+
+msgid "Image %d"
+msgstr "Afbeelding %d"
+
+msgid "Show title and subtitle"
+msgstr "Toon titel en subtekst"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Subtitle"
+msgstr "Subtekst"
+
+msgid "Multi-product Visualization"
+msgstr "Multi-product visualisatie"
+
+msgid "Enable multi-product mode"
+msgstr "Multi-product modus inschakelen"
+
+msgid "When enabled, customers can collect multiple products"
+msgstr "Wanneer ingeschakeld kunnen klanten meerdere producten verzamelen en samen visualiseren"
+
+msgid "Maximum number of products"
+msgstr "Maximum aantal producten"
+
+msgid "The AI automatically determines logical quantities"
+msgstr "De AI bepaalt automatisch logische hoeveelheden"
+
+msgid "WhatsApp Quote Request"
+msgstr "WhatsApp prijsopgave"
+
+msgid "Show WhatsApp button"
+msgstr "WhatsApp button tonen"
+
+msgid "Show a WhatsApp button"
+msgstr "Toon een WhatsApp button waarmee klanten direct een prijsopgave kunnen aanvragen"
+
+msgid "WhatsApp Phone Number"
+msgstr "WhatsApp telefoonnummer"
+
+msgid "Including country code"
+msgstr "Inclusief landcode (bijv. +31 voor Nederland)"
+
+msgid "Message Template"
+msgstr "Bericht template"
+
+msgid "This message is automatically filled with product names"
+msgstr "Dit bericht wordt automatisch aangevuld met de productnamen"
+
+msgid "Cleanup"
+msgstr "Opruimen"
+
+msgid "Automatically delete after"
+msgstr "Automatisch verwijderen na"
+
+msgid "hours"
+msgstr "uur"
+
+msgid "Generated images are automatically deleted after this period"
+msgstr "Gegenereerde afbeeldingen worden automatisch verwijderd na deze periode"
+
+msgid "Save"
+msgstr "Opslaan"
+
+#: includes/admin/class-mrv-settings.php - Styling tab
+msgid "Customize the appearance of the visualizer button"
+msgstr "Pas het uiterlijk van de visualizer button aan"
+
+msgid "Colors"
+msgstr "Kleuren"
+
+msgid "Normal"
+msgstr "Normaal"
+
+msgid "Primary Color"
+msgstr "Primaire kleur"
+
+msgid "Border color"
+msgstr "Border kleur"
+
+msgid "Text color"
+msgstr "Tekstkleur"
+
+msgid "Empty = accent color"
+msgstr "Leeg = accentkleur"
+
+msgid "Hover"
+msgstr "Hover"
+
+msgid "Background Color"
+msgstr "Achtergrond"
+
+msgid "Empty = white"
+msgstr "Leeg = wit"
+
+msgid "Button style"
+msgstr "Button stijl"
+
+msgid "Outline"
+msgstr "Outline"
+
+msgid "Transparent with border"
+msgstr "Transparant met rand"
+
+msgid "Filled"
+msgstr "Filled"
+
+msgid "Filled background"
+msgstr "Gevulde achtergrond"
+
+msgid "Ghost"
+msgstr "Ghost"
+
+msgid "Text only"
+msgstr "Alleen tekst"
+
+msgid "Button radius"
+msgstr "Button hoeken"
+
+msgid "Sharp"
+msgstr "Scherp"
+
+msgid "Rounded"
+msgstr "Afgerond"
+
+msgid "Pill"
+msgstr "Pill"
+
+msgid "Icon"
+msgstr "Icoon"
+
+msgid "Show icon on button"
+msgstr "Toon icoon op button"
+
+msgid "WhatsApp button"
+msgstr "WhatsApp button"
+
+msgid "Live preview"
+msgstr "Live preview"
+
+msgid "Add to cart"
+msgstr "In winkelwagen"
+
+#: includes/admin/class-mrv-settings.php - Products tab
+msgid "Select which products show the visualizer button"
+msgstr "Selecteer bij welke producten de visualizer button getoond wordt"
+
+msgid "All Products"
+msgstr "Alle producten"
+
+msgid "Enable for all products"
+msgstr "Activeer voor alle producten"
+
+msgid "The visualizer button is shown on all"
+msgstr "De visualizer button wordt getoond op alle WooCommerce producten"
+
+msgid "Product Tags"
+msgstr "Product tags"
+
+msgid "Select tags"
+msgstr "Selecteer tags waarvan producten de visualizer moeten tonen"
+
+msgid "No product tags found"
+msgstr "Geen product tags gevonden"
+
+msgid "Individual Products"
+msgstr "Individuele producten"
+
+msgid "Search products"
+msgstr "Zoek producten"
+
+msgid "Search products by name or SKU..."
+msgstr "Zoek producten op naam of SKU..."
+
+msgid "No products selected"
+msgstr "Geen producten geselecteerd"
+
+#: includes/admin/class-mrv-settings.php - Generations tab
+msgid "Manage all visualizations created by customers."
+msgstr "Beheer alle visualisaties die door klanten zijn gemaakt."
+
+msgid "Total"
+msgstr "Totaal"
+
+msgid "Pending"
+msgstr "In afwachting"
+
+msgid "Approved"
+msgstr "Goedgekeurd"
+
+msgid "Featured"
+msgstr "Uitgelicht"
+
+msgid "Rejected"
+msgstr "Afgewezen"
+
+#: includes/admin/class-mrv-admin.php - API test messages
+msgid "Access denied."
+msgstr "Geen toegang."
+
+msgid "No API key provided."
+msgstr "Geen API key ingevuld."
+
+msgid "Please enter an API key first."
+msgstr "Vul eerst een API key in."
+
+msgid "Connection timeout"
+msgstr "Timeout bij verbinden"
+
+msgid "The API did not respond in time. Please try again later."
+msgstr "De API reageerde niet op tijd. Probeer het later opnieuw."
+
+msgid "Connection error"
+msgstr "Verbindingsfout"
+
+msgid "Invalid API key"
+msgstr "Ongeldige API key"
+
+msgid "The API key is not valid. Check if you copied the correct key."
+msgstr "De API key is niet geldig. Controleer of je de juiste key hebt gekopieerd."
+
+msgid "API error"
+msgstr "API fout"
+
+msgid "Unknown validation error."
+msgstr "Onbekende fout bij validatie."
+
+msgid "The API key is not valid or has been deactivated."
+msgstr "De API key is niet geldig of is gedeactiveerd."
+
+msgid "Access denied"
+msgstr "Toegang geweigerd"
+
+msgid "The API key does not have access to the Generative Language API. Check if the API is enabled in Google Cloud Console."
+msgstr "De API key heeft geen toegang tot de Generative Language API. Controleer of de API is ingeschakeld in Google Cloud Console."
+
+msgid "Check your Google Cloud project settings."
+msgstr "Controleer je Google Cloud project settings."
+
+msgid "Rate limit reached"
+msgstr "Rate limit bereikt"
+
+msgid "Too many requests. Please wait and try again."
+msgstr "Te veel requests. Wacht even en probeer opnieuw."
+
+msgid "API error (HTTP %d)"
+msgstr "API fout (HTTP %d)"
+
+msgid "Unknown error."
+msgstr "Onbekende fout."
+
+msgid "API key works!"
+msgstr "API key werkt!"
+
+msgid "The API key is valid and has access to the Gemini API."
+msgstr "De API key is geldig en heeft toegang tot de Gemini API."
+
+#: includes/admin/class-mrv-generations-list.php
+msgid "Generation"
+msgstr "Generatie"
+
+msgid "Preview"
+msgstr "Preview"
+
+msgid "Product"
+msgstr "Product"
+
+msgid "User"
+msgstr "Gebruiker"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Created"
+msgstr "Aangemaakt"
+
+msgid "Expires"
+msgstr "Verloopt"
+
+msgid "Approve"
+msgstr "Goedkeuren"
+
+msgid "Reject"
+msgstr "Afwijzen"
+
+msgid "Delete"
+msgstr "Verwijderen"
+
+msgid "No product"
+msgstr "Geen product"
+
+msgid "Deleted product"
+msgstr "Verwijderd product"
+
+msgid "more"
+msgstr "meer"
+
+msgid "Guest"
+msgstr "Gast"
+
+msgid "Deleted user"
+msgstr "Verwijderde gebruiker"
+
+msgid "Expired"
+msgstr "Verlopen"
+
+msgid "All"
+msgstr "Alle"
+
+msgid "No generations found."
+msgstr "Geen generaties gevonden."
+
+#: includes/class-mrv-post-types.php
+msgid "Add New"
+msgstr "Nieuwe toevoegen"
+
+msgid "Add New Generation"
+msgstr "Nieuwe generatie toevoegen"
+
+msgid "New Generation"
+msgstr "Nieuwe generatie"
+
+msgid "Edit Generation"
+msgstr "Generatie bewerken"
+
+msgid "View Generation"
+msgstr "Generatie bekijken"
+
+msgid "Search Generations"
+msgstr "Generaties zoeken"
+
+msgid "No generations found in trash."
+msgstr "Geen generaties gevonden in prullenbak."
+
+msgid "All Statuses"
+msgstr "Alle statussen"
+
+msgid "Search Statuses"
+msgstr "Status zoeken"
+
+msgid "Edit Status"
+msgstr "Status bewerken"
+
+msgid "Update Status"
+msgstr "Status bijwerken"
+
+msgid "Add New Status"
+msgstr "Nieuwe status toevoegen"
+
+msgid "New Status Name"
+msgstr "Nieuwe status naam"
+
+msgid "No consent given"
+msgstr "Geen toestemming gegeven"
+
+msgid "May be used on site"
+msgstr "Mag op site gebruikt worden"
+
+msgid "Active in marketing/examples"
+msgstr "Actief in marketing/voorbeelden"
+
+msgid "Explicitly no consent"
+msgstr "Expliciet geen toestemming"
+
+msgid "No products specified."
+msgstr "Geen producten opgegeven."
+
+msgid "%s + %d more"
+msgstr "%s + %d meer"
+
+msgid "Generation - %s"
+msgstr "Generatie - %s"
+
+#: includes/api/class-mrv-ajax-handler.php
+msgid "Security check failed."
+msgstr "Beveiligingscontrole mislukt."
+
+msgid "Invalid product."
+msgstr "Ongeldig product."
+
+msgid "Visualizer not enabled for one or more products."
+msgstr "Visualizer niet ingeschakeld voor een of meer producten."
+
+msgid "No image uploaded."
+msgstr "Geen afbeelding geüpload."
+
+msgid "Upload error."
+msgstr "Upload fout."
+
+msgid "File too large. Maximum size is 10MB."
+msgstr "Bestand te groot. Maximaal 10MB."
+
+msgid "Invalid file type. Please upload JPG, PNG, or WebP."
+msgstr "Ongeldig bestandstype. Upload een JPG, PNG of WebP."
+
+msgid "HEIC/HEIF files are not supported on this server. Please upload a JPG or PNG."
+msgstr "HEIC/HEIF bestanden worden niet ondersteund op deze server. Upload een JPG of PNG."
+
+msgid "API not configured. Please contact the administrator."
+msgstr "API niet geconfigureerd. Neem contact op met de beheerder."
+
+msgid "Failed to save generated image."
+msgstr "Kon gegenereerde afbeelding niet opslaan."
+
+msgid "Invalid generation ID."
+msgstr "Ongeldige generatie ID."
+
+msgid "Failed to update consent."
+msgstr "Kon toestemming niet bijwerken."
+
+msgid "WooCommerce not available."
+msgstr "WooCommerce niet beschikbaar."
+
+msgid "Product not found."
+msgstr "Product niet gevonden."
+
+msgid "Could not add to cart."
+msgstr "Kon niet aan winkelwagen toevoegen."
+
+#: includes/api/class-mrv-gemini-client.php
+msgid "API key not configured."
+msgstr "API key niet geconfigureerd."
+
+msgid "No product images found."
+msgstr "Geen productafbeeldingen gevonden."
+
+msgid "Could not read room image."
+msgstr "Kon kamerafbeelding niet lezen."
+
+msgid "The AI service is currently busy. Please try again in a few minutes."
+msgstr "De AI-service is momenteel druk bezet. Probeer het over enkele minuten opnieuw."
+
+msgid "Could not connect to the AI service. Check your internet connection and try again."
+msgstr "Kon geen verbinding maken met de AI-service. Controleer je internetverbinding en probeer opnieuw."
+
+msgid "API request failed."
+msgstr "API verzoek mislukt."
+
+msgid "The image could not be generated due to content filters. Please try a different photo."
+msgstr "De afbeelding kon niet worden gegenereerd vanwege inhoudsfilters. Probeer een andere foto."
+
+msgid "Image generation failed. Please try again."
+msgstr "Afbeelding genereren is mislukt. Probeer het opnieuw."
+
+msgid "No image in API response."
+msgstr "Geen afbeelding in API response."
+
+#: includes/frontend/class-mrv-frontend.php & templates/modal.php
+msgid "Visualize in your room"
+msgstr "Visualiseer in jouw kamer"
+
+msgid "Uploading..."
+msgstr "Uploaden..."
+
+msgid "AI is creating your visualization..."
+msgstr "AI maakt je visualisatie..."
+
+msgid "Something went wrong. Please try again."
+msgstr "Er ging iets mis. Probeer het opnieuw."
+
+msgid "Invalid file type. Use JPG, PNG, WebP, HEIC or HEIF."
+msgstr "Ongeldig bestandstype. Gebruik JPG, PNG, WebP, HEIC of HEIF."
+
+msgid "File is too large. Maximum 10MB."
+msgstr "Bestand is te groot. Maximaal 10MB."
+
+msgid "Try again"
+msgstr "Opnieuw proberen"
+
+msgid "Adding..."
+msgstr "Toevoegen..."
+
+msgid "Added!"
+msgstr "Toegevoegd!"
+
+msgid "Drop your room photo here"
+msgstr "Sleep je kamerfoto hierheen"
+
+msgid "or click to browse"
+msgstr "of klik om te bladeren"
+
+msgid "Maximum 5MB - JPG, PNG, WebP, HEIC or HEIF"
+msgstr "Maximaal 5MB - JPG, PNG, WebP, HEIC of HEIF"
+
+msgid "Request quote via WhatsApp"
+msgstr "Vraag prijsopgave via WhatsApp"
+
+msgid "Hello! I would like a quote for the following items:"
+msgstr "Hallo! Ik zou graag een prijsopgave willen voor de volgende items:"
+
+msgid "Drag your room photo here"
+msgstr "Sleep je kamerfoto hierheen"
+
+msgid "or click to browse — your visualization starts immediately"
+msgstr "of klik om te bladeren — je visualisatie start direct"
+
+msgid "See it for yourself"
+msgstr "Zie het voor je"
+
+msgid "Upload a photo of your room"
+msgstr "Upload een foto van jouw kamer"
+
+msgid "Upload a photo of yourself"
+msgstr "Upload een foto van jezelf"
+
+msgid "AI is fitting the clothing to your photo..."
+msgstr "AI past de kleding op jouw foto..."
+
+msgid "Try it on virtually"
+msgstr "Pas het virtueel"
+
+msgid "Drag your photo here"
+msgstr "Sleep je foto hierheen"
+
+msgid "Upload a photo"
+msgstr "Upload een foto"
+
+msgid "Virtual try-on"
+msgstr "Virtueel passen"
+
+msgid "Visualize"
+msgstr "Visualiseren"
+
+msgid "Products in visualization"
+msgstr "Producten in visualisatie"
+
+msgid "Close the modal to add more products"
+msgstr "Sluit de modal om meer producten toe te voegen"
+
+msgid "I consent to this image being used for marketing and as an example on the website"
+msgstr "Ik geef toestemming om deze afbeelding te gebruiken voor marketing en als voorbeeld op de website"
+
+#: assets/js/mrv-admin.js (via mrvAdminI18n)
+msgid "Searching..."
+msgstr "Zoeken..."
+
+msgid "No products found"
+msgstr "Geen producten gevonden"
+
+msgid "(already selected)"
+msgstr "(al geselecteerd)"
+
+msgid "Use the search bar above to add products."
+msgstr "Gebruik de zoekbalk hierboven om producten toe te voegen."
+
+#: assets/js/mrv-frontend.js
+msgid "View"
+msgstr "Bekijk"
+
+msgid "Close"
+msgstr "Sluiten"
+
+msgid "product"
+msgstr "product"
+
+msgid "products"
+msgstr "producten"
+
+msgid "in visualization"
+msgstr "in visualisatie"
+
+msgid "Products in this visualization"
+msgstr "Producten in deze visualisatie"
+
+msgid "Please select a variation (e.g. color or size) before ordering."
+msgstr "Selecteer eerst een variatie (bijv. kleur of maat) voordat je bestelt."
+
+msgid "File is too large. Maximum 5MB."
+msgstr "Bestand is te groot. Maximaal 5MB."
