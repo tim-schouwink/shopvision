@@ -1865,3 +1865,225 @@
 .mrv-field-info svg {
     flex-shrink: 0;
 }
+
+/* ========================================
+   ANALYTICS TAB
+   ======================================== */
+
+.mrv-analytics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.mrv-period-selector select {
+    padding: 8px 32px 8px 12px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236b7280" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>') no-repeat right 8px center;
+    background-size: 16px;
+    appearance: none;
+    cursor: pointer;
+    min-width: 160px;
+}
+
+.mrv-period-selector select:hover {
+    border-color: #9ca3af;
+}
+
+.mrv-period-selector select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Analytics Stats Grid */
+.mrv-analytics-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 1024px) {
+    .mrv-analytics-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .mrv-analytics-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Analytics Card */
+.mrv-analytics-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+    position: relative;
+}
+
+.mrv-analytics-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1d2327;
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.mrv-analytics-label {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.mrv-analytics-change {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.mrv-change-up {
+    background: #d1fae5;
+    color: #047857;
+}
+
+.mrv-change-down {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Analytics Tables */
+.mrv-analytics-tables {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+}
+
+@media (max-width: 1200px) {
+    .mrv-analytics-tables {
+        grid-template-columns: 1fr;
+    }
+}
+
+.mrv-analytics-tables .mrv-card {
+    margin-bottom: 0;
+}
+
+.mrv-analytics-tables .mrv-card-title {
+    padding: 16px 20px;
+    margin: 0;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+/* Analytics Table */
+.mrv-analytics-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mrv-analytics-table th,
+.mrv-analytics-table td {
+    padding: 12px 16px;
+    text-align: left;
+}
+
+.mrv-analytics-table th {
+    background: #f9fafb;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6b7280;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.mrv-analytics-table td {
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 14px;
+    color: #1d2327;
+}
+
+.mrv-analytics-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.mrv-analytics-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.mrv-analytics-table a {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.mrv-analytics-table a:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+.mrv-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.mrv-link:hover {
+    color: #1d4ed8;
+}
+
+/* Empty State */
+.mrv-empty-state {
+    padding: 32px 20px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* Info Box */
+.mrv-info-box {
+    display: flex;
+    gap: 12px;
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 24px;
+}
+
+.mrv-info-box svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: #0284c7;
+}
+
+.mrv-info-box strong {
+    display: block;
+    color: #0c4a6e;
+    margin-bottom: 4px;
+}
+
+.mrv-info-box p {
+    margin: 0;
+    color: #0369a1;
+    font-size: 13px;
+    line-height: 1.5;
+}

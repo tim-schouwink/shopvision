@@ -35,6 +35,7 @@ class MRV_Loader {
      */
     private function load_dependencies(): void {
         require_once MRV_PLUGIN_DIR . 'includes/class-mrv-post-types.php';
+        require_once MRV_PLUGIN_DIR . 'includes/class-mrv-conversion-tracker.php';
         require_once MRV_PLUGIN_DIR . 'includes/admin/class-mrv-admin.php';
         require_once MRV_PLUGIN_DIR . 'includes/admin/class-mrv-settings.php';
         require_once MRV_PLUGIN_DIR . 'includes/admin/class-mrv-generations-list.php';
@@ -44,6 +45,9 @@ class MRV_Loader {
 
         // Initialize post types (registers on 'init' hook)
         new MRV_Post_Types();
+
+        // Initialize conversion tracker (registers WooCommerce hooks)
+        new MRV_Conversion_Tracker();
     }
 
     /**

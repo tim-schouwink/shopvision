@@ -384,6 +384,10 @@ class MRV_Settings {
                 'icon'  => '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>',
                 'badge' => $generation_counts['all'] > 0 ? $generation_counts['all'] : null,
             ],
+            'analytics' => [
+                'label' => __('Analytics', 'shopvision'),
+                'icon'  => '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+            ],
         ];
         ?>
         <div class="mrv-wrap">
@@ -438,6 +442,9 @@ class MRV_Settings {
                         break;
                     case 'generaties':
                         $this->render_generaties_tab();
+                        break;
+                    case 'analytics':
+                        $this->render_analytics_tab();
                         break;
                     default:
                         $this->render_algemeen_tab();
@@ -1507,6 +1514,180 @@ class MRV_Settings {
             </form>
         </div>
         <?php
+    }
+
+    /**
+     * Render Analytics tab
+     */
+    private function render_analytics_tab(): void {
+        // Get period from query string
+        $period = isset($_GET['period']) ? sanitize_text_field($_GET['period']) : '30days';
+        $valid_periods = ['7days', '30days', '90days', 'all'];
+        if (!in_array($period, $valid_periods)) {
+            $period = '30days';
+        }
+
+        // Get analytics data
+        $analytics = MRV_Conversion_Tracker::get_analytics($period);
+        $currency = $analytics['currency_symbol'];
+
+        // Period labels
+        $period_labels = [
+            '7days'  => __('Last 7 days', 'shopvision'),
+            '30days' => __('Last 30 days', 'shopvision'),
+            '90days' => __('Last 90 days', 'shopvision'),
+            'all'    => __('All time', 'shopvision'),
+        ];
+        ?>
+        <div class="mrv-analytics-header">
+            <div>
+                <h1 class="mrv-page-title"><?php esc_html_e('Analytics', 'shopvision'); ?></h1>
+                <p class="mrv-page-description"><?php esc_html_e('Track visualizer performance and conversion metrics.', 'shopvision'); ?></p>
+            </div>
+            <div class="mrv-period-selector">
+                <select id="mrv-analytics-period" onchange="window.location.href='<?php echo esc_url(admin_url('admin.php?page=mrv-settings&tab=analytics&period=')); ?>'+this.value">
+                    <?php foreach ($period_labels as $key => $label): ?>
+                        <option value="<?php echo esc_attr($key); ?>" <?php selected($period, $key); ?>>
+                            <?php echo esc_html($label); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+
+        <!-- Main Stats Cards -->
+        <div class="mrv-analytics-stats">
+            <div class="mrv-analytics-card">
+                <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($analytics['visualizations'])); ?></div>
+                <div class="mrv-analytics-label"><?php esc_html_e('Visualizations', 'shopvision'); ?></div>
+                <?php $this->render_change_badge($analytics['visualizations_change']); ?>
+            </div>
+            <div class="mrv-analytics-card">
+                <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($analytics['conversions'])); ?></div>
+                <div class="mrv-analytics-label"><?php esc_html_e('Conversions', 'shopvision'); ?></div>
+                <?php $this->render_change_badge($analytics['conversions_change']); ?>
+            </div>
+            <div class="mrv-analytics-card">
+                <div class="mrv-analytics-value"><?php echo esc_html($analytics['conversion_rate']); ?>%</div>
+                <div class="mrv-analytics-label"><?php esc_html_e('Conversion Rate', 'shopvision'); ?></div>
+            </div>
+        </div>
+
+        <div class="mrv-analytics-stats">
+            <div class="mrv-analytics-card">
+                <div class="mrv-analytics-value"><?php echo esc_html($currency . number_format_i18n($analytics['revenue'], 2)); ?></div>
+                <div class="mrv-analytics-label"><?php esc_html_e('Revenue from Visualizer', 'shopvision'); ?></div>
+                <?php $this->render_change_badge($analytics['revenue_change']); ?>
+            </div>
+            <div class="mrv-analytics-card">
+                <div class="mrv-analytics-value"><?php echo esc_html($currency . number_format_i18n($analytics['avg_order_value'], 2)); ?></div>
+                <div class="mrv-analytics-label"><?php esc_html_e('Avg. Order Value', 'shopvision'); ?></div>
+            </div>
+            <div class="mrv-analytics-card">
+                <div class="mrv-analytics-value"><?php echo esc_html($analytics['days_to_convert']); ?></div>
+                <div class="mrv-analytics-label"><?php esc_html_e('Avg. Days to Convert', 'shopvision'); ?></div>
+            </div>
+        </div>
+
+        <!-- Tables Section -->
+        <div class="mrv-analytics-tables">
+            <!-- Recent Conversions -->
+            <div class="mrv-card">
+                <h2 class="mrv-card-title"><?php esc_html_e('Recent Conversions', 'shopvision'); ?></h2>
+                <?php if (empty($analytics['recent_conversions'])): ?>
+                    <p class="mrv-empty-state"><?php esc_html_e('No conversions yet. Orders from customers who used the visualizer will appear here.', 'shopvision'); ?></p>
+                <?php else: ?>
+                    <table class="mrv-analytics-table">
+                        <thead>
+                            <tr>
+                                <th><?php esc_html_e('Order', 'shopvision'); ?></th>
+                                <th><?php esc_html_e('Total', 'shopvision'); ?></th>
+                                <th><?php esc_html_e('Date', 'shopvision'); ?></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($analytics['recent_conversions'] as $conversion): ?>
+                                <tr>
+                                    <td><strong>#<?php echo esc_html($conversion['order_number']); ?></strong></td>
+                                    <td><?php echo esc_html($currency . number_format_i18n($conversion['total'], 2)); ?></td>
+                                    <td><?php echo esc_html($conversion['date']); ?></td>
+                                    <td>
+                                        <a href="<?php echo esc_url($conversion['edit_url']); ?>" class="mrv-link">
+                                            <?php esc_html_e('View', 'shopvision'); ?> →
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </div>
+
+            <!-- Top Products -->
+            <div class="mrv-card">
+                <h2 class="mrv-card-title"><?php esc_html_e('Top Visualized Products', 'shopvision'); ?></h2>
+                <?php if (empty($analytics['top_products'])): ?>
+                    <p class="mrv-empty-state"><?php esc_html_e('No visualizations yet. Products visualized by customers will appear here.', 'shopvision'); ?></p>
+                <?php else: ?>
+                    <table class="mrv-analytics-table">
+                        <thead>
+                            <tr>
+                                <th><?php esc_html_e('Product', 'shopvision'); ?></th>
+                                <th><?php esc_html_e('Visualizations', 'shopvision'); ?></th>
+                                <th><?php esc_html_e('Conversions', 'shopvision'); ?></th>
+                                <th><?php esc_html_e('Conv. Rate', 'shopvision'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($analytics['top_products'] as $product): ?>
+                                <tr>
+                                    <td>
+                                        <a href="<?php echo esc_url($product['edit_url']); ?>">
+                                            <?php echo esc_html($product['name']); ?>
+                                        </a>
+                                    </td>
+                                    <td><?php echo esc_html(number_format_i18n($product['visualizations'])); ?></td>
+                                    <td><?php echo esc_html(number_format_i18n($product['conversions'])); ?></td>
+                                    <td><?php echo esc_html($product['conversion_rate']); ?>%</td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="mrv-info-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <div>
+                <strong><?php esc_html_e('How conversion tracking works', 'shopvision'); ?></strong>
+                <p><?php esc_html_e('When a customer uses the visualizer, a cookie tracks their session. If they place an order within 30 days, it\'s counted as a conversion. This is a functional cookie that doesn\'t require GDPR consent.', 'shopvision'); ?></p>
+            </div>
+        </div>
+        <?php
+    }
+
+    /**
+     * Render change badge (up/down arrow with percentage)
+     *
+     * @param float $change Percentage change
+     */
+    private function render_change_badge(float $change): void {
+        if ($change == 0) {
+            return;
+        }
+
+        $class = $change > 0 ? 'mrv-change-up' : 'mrv-change-down';
+        $arrow = $change > 0 ? '↑' : '↓';
+        $value = abs($change);
+
+        echo '<div class="mrv-analytics-change ' . esc_attr($class) . '">';
+        echo esc_html($arrow . ' ' . $value . '%');
+        echo '</div>';
     }
 
 }

@@ -735,3 +735,67 @@ msgstr "Selecteer eerst een variatie (bijv. kleur of maat) voordat je bestelt."
 
 msgid "File is too large. Maximum 5MB."
 msgstr "Bestand is te groot. Maximaal 5MB."
+
+#: includes/admin/class-mrv-settings.php - Analytics tab
+msgid "Analytics"
+msgstr "Analytics"
+
+msgid "Track visualizer performance and conversion metrics."
+msgstr "Volg de prestaties en conversie van de visualizer."
+
+msgid "Last 7 days"
+msgstr "Laatste 7 dagen"
+
+msgid "Last 30 days"
+msgstr "Laatste 30 dagen"
+
+msgid "Last 90 days"
+msgstr "Laatste 90 dagen"
+
+msgid "All time"
+msgstr "Alle tijd"
+
+msgid "Visualizations"
+msgstr "Visualisaties"
+
+msgid "Conversions"
+msgstr "Conversies"
+
+msgid "Conversion Rate"
+msgstr "Conversieratio"
+
+msgid "Revenue from Visualizer"
+msgstr "Omzet via Visualizer"
+
+msgid "Avg. Order Value"
+msgstr "Gem. orderwaarde"
+
+msgid "Avg. Days to Convert"
+msgstr "Gem. dagen tot conversie"
+
+msgid "Recent Conversions"
+msgstr "Recente conversies"
+
+msgid "No conversions yet. Orders from customers who used the visualizer will appear here."
+msgstr "Nog geen conversies. Bestellingen van klanten die de visualizer gebruikten verschijnen hier."
+
+msgid "Order"
+msgstr "Bestelling"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Top Visualized Products"
+msgstr "Meest gevisualiseerde producten"
+
+msgid "No visualizations yet. Products visualized by customers will appear here."
+msgstr "Nog geen visualisaties. Producten die door klanten zijn gevisualiseerd verschijnen hier."
+
+msgid "Conv. Rate"
+msgstr "Conv. ratio"
+
+msgid "How conversion tracking works"
+msgstr "Hoe conversie tracking werkt"
+
+msgid "When a customer uses the visualizer, a cookie tracks their session. If they place an order within 30 days, it's counted as a conversion. This is a functional cookie that doesn't require GDPR consent."
+msgstr "Wanneer een klant de visualizer gebruikt, houdt een cookie hun sessie bij. Als ze binnen 30 dagen een bestelling plaatsen, telt dit als een conversie. Dit is een functionele cookie die geen GDPR-toestemming vereist."

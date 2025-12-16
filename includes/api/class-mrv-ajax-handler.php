@@ -183,6 +183,11 @@ class MRV_Ajax_Handler {
             return null;
         }
 
+        // Set tracking cookie for conversion tracking
+        if (class_exists('MRV_Conversion_Tracker')) {
+            MRV_Conversion_Tracker::set_tracking_cookie($session_id);
+        }
+
         return [
             'image_url'     => $file_url,
             'generation_id' => $generation_id,
