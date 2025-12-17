@@ -224,8 +224,8 @@ msgstr "Automatisch verwijderen na"
 msgid "hours"
 msgstr "uur"
 
-msgid "Generated images are automatically deleted after this period"
-msgstr "Gegenereerde afbeeldingen worden automatisch verwijderd na deze periode"
+msgid "Generated images are automatically deleted after this period. Set to 0 to never delete automatically."
+msgstr "Gegenereerde afbeeldingen worden automatisch verwijderd na deze periode. Zet op 0 om nooit automatisch te verwijderen."
 
 msgid "Save"
 msgstr "Opslaan"

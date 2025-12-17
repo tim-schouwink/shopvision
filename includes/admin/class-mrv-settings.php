@@ -928,7 +928,7 @@ class MRV_Settings {
                             <span class="mrv-field-suffix"><?php esc_html_e('hours', 'shopvision'); ?></span>
                         </div>
                         <p class="mrv-field-description">
-                            <?php esc_html_e('Generated images are automatically deleted after this period', 'shopvision'); ?>
+                            <?php esc_html_e('Generated images are automatically deleted after this period. Set to 0 to never delete automatically.', 'shopvision'); ?>
                         </p>
                     </div>
                 </div>
