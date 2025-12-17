@@ -37,6 +37,7 @@ class MRV_Loader {
         require_once MRV_PLUGIN_DIR . 'includes/class-mrv-post-types.php';
         require_once MRV_PLUGIN_DIR . 'includes/class-mrv-conversion-tracker.php';
         require_once MRV_PLUGIN_DIR . 'includes/class-mrv-rate-limiter.php';
+        require_once MRV_PLUGIN_DIR . 'includes/class-mrv-encryption.php';
         require_once MRV_PLUGIN_DIR . 'includes/admin/class-mrv-admin.php';
         require_once MRV_PLUGIN_DIR . 'includes/admin/class-mrv-settings.php';
         require_once MRV_PLUGIN_DIR . 'includes/admin/class-mrv-generations-list.php';
@@ -49,6 +50,26 @@ class MRV_Loader {
 
         // Initialize conversion tracker (registers WooCommerce hooks)
         new MRV_Conversion_Tracker();
+
+        // Run migrations on version update
+        $this->maybe_run_migrations();
+    }
+
+    /**
+     * Check and run migrations if needed
+     */
+    private function maybe_run_migrations(): void {
+        $db_version = get_option('mrv_db_version', '0');
+
+        // Migration: Encrypt API key (added in 3.3.0)
+        if (version_compare($db_version, '3.3.0', '<')) {
+            MRV_Encryption::migrate_option('mrv_api_key');
+        }
+
+        // Update stored version
+        if (version_compare($db_version, MRV_VERSION, '<')) {
+            update_option('mrv_db_version', MRV_VERSION);
+        }
     }
 
     /**

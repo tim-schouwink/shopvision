@@ -47,7 +47,7 @@ class MRV_Settings {
         // ========================================
         register_setting('mrv_settings_general', 'mrv_api_key', [
             'type'              => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
+            'sanitize_callback' => [$this, 'sanitize_api_key'],
         ]);
 
         register_setting('mrv_settings_general', 'mrv_preset', [
@@ -357,6 +357,23 @@ class MRV_Settings {
     }
 
     /**
+     * Sanitize and encrypt API key
+     *
+     * @param string $input The API key input
+     * @return string Encrypted API key
+     */
+    public function sanitize_api_key($input): string {
+        $input = sanitize_text_field($input);
+
+        if (empty($input)) {
+            return '';
+        }
+
+        // Encrypt the API key before storing
+        return MRV_Encryption::encrypt($input);
+    }
+
+    /**
      * Get current active tab
      */
     private function get_active_tab(): string {
@@ -472,7 +489,8 @@ class MRV_Settings {
      * Render Algemeen tab
      */
     private function render_algemeen_tab(): void {
-        $api_key = get_option('mrv_api_key', '');
+        $api_key_encrypted = get_option('mrv_api_key', '');
+        $api_key = MRV_Encryption::decrypt($api_key_encrypted);
         $preset = get_option('mrv_preset', 'interior');
         $custom_prompt = get_option('mrv_custom_prompt', '');
         $button_text = get_option('mrv_button_text', 'Visualize in your room');

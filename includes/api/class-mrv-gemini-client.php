@@ -33,7 +33,8 @@ class MRV_Gemini_Client {
      * Constructor
      */
     public function __construct() {
-        $this->api_key = get_option('mrv_api_key', '');
+        $encrypted_key = get_option('mrv_api_key', '');
+        $this->api_key = MRV_Encryption::decrypt($encrypted_key);
         $this->preset = get_option('mrv_preset', 'interior');
         $this->custom_prompt = get_option('mrv_custom_prompt', '');
     }

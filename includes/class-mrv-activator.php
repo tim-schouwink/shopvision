@@ -15,6 +15,7 @@ class MRV_Activator {
     public static function activate(): void {
         self::set_default_options();
         self::schedule_cleanup_cron();
+        self::migrate_api_key_encryption();
 
         flush_rewrite_rules();
     }
@@ -47,5 +48,17 @@ class MRV_Activator {
         if (!wp_next_scheduled('mrv_cleanup_images')) {
             wp_schedule_event(time(), 'hourly', 'mrv_cleanup_images');
         }
+    }
+
+    /**
+     * Migrate plain text API key to encrypted format
+     */
+    private static function migrate_api_key_encryption(): void {
+        // Load encryption class if not already loaded
+        if (!class_exists('MRV_Encryption')) {
+            require_once MRV_PLUGIN_DIR . 'includes/class-mrv-encryption.php';
+        }
+
+        MRV_Encryption::migrate_option('mrv_api_key');
     }
 }
