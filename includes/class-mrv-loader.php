@@ -36,6 +36,7 @@ class MRV_Loader {
     private function load_dependencies(): void {
         require_once MRV_PLUGIN_DIR . 'includes/class-mrv-post-types.php';
         require_once MRV_PLUGIN_DIR . 'includes/class-mrv-conversion-tracker.php';
+        require_once MRV_PLUGIN_DIR . 'includes/class-mrv-rate-limiter.php';
         require_once MRV_PLUGIN_DIR . 'includes/admin/class-mrv-admin.php';
         require_once MRV_PLUGIN_DIR . 'includes/admin/class-mrv-settings.php';
         require_once MRV_PLUGIN_DIR . 'includes/admin/class-mrv-generations-list.php';

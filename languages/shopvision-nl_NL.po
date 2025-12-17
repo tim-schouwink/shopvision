@@ -799,3 +799,40 @@ msgstr "Hoe conversie tracking werkt"
 
 msgid "When a customer uses the visualizer, a cookie tracks their session. If they place an order within 30 days, it's counted as a conversion. This is a functional cookie that doesn't require GDPR consent."
 msgstr "Wanneer een klant de visualizer gebruikt, houdt een cookie hun sessie bij. Als ze binnen 30 dagen een bestelling plaatsen, telt dit als een conversie. Dit is een functionele cookie die geen GDPR-toestemming vereist."
+
+#: includes/admin/class-mrv-settings.php - Rate Limiting
+msgid "Rate Limiting"
+msgstr "Snelheidslimiet"
+
+msgid "Protect your API usage by limiting visualizations per user per hour."
+msgstr "Bescherm je API-gebruik door visualisaties per gebruiker per uur te beperken."
+
+msgid "Guest limit"
+msgstr "Gast limiet"
+
+msgid "per hour"
+msgstr "per uur"
+
+msgid "Maximum visualizations per hour for guests (not logged in). Set to 0 for unlimited."
+msgstr "Maximum visualisaties per uur voor gasten (niet ingelogd). Zet op 0 voor onbeperkt."
+
+msgid "Logged-in user limit"
+msgstr "Ingelogde gebruiker limiet"
+
+msgid "Maximum visualizations per hour for logged-in users. Set to 0 for unlimited."
+msgstr "Maximum visualisaties per uur voor ingelogde gebruikers. Zet op 0 voor onbeperkt."
+
+#: includes/api/class-mrv-ajax-handler.php - Rate limit error
+msgid "Too many requests. Please try again in %s."
+msgstr "Te veel verzoeken. Probeer het opnieuw over %s."
+
+#: includes/class-mrv-rate-limiter.php
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d seconde"
+msgstr[1] "%d seconden"
+
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minuut"
+msgstr[1] "%d minuten"

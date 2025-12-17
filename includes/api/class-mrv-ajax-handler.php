@@ -29,6 +29,20 @@ class MRV_Ajax_Handler {
             wp_send_json_error(['message' => __('Security check failed.', 'shopvision')], 403);
         }
 
+        // Check rate limit
+        $rate_check = MRV_Rate_Limiter::check();
+        if (!$rate_check['allowed']) {
+            $reset_time = MRV_Rate_Limiter::format_reset_time($rate_check['reset_in']);
+            wp_send_json_error([
+                'message' => sprintf(
+                    __('Too many requests. Please try again in %s.', 'shopvision'),
+                    $reset_time
+                ),
+                'rate_limited' => true,
+                'reset_in' => $rate_check['reset_in'],
+            ], 429);
+        }
+
         // Get product IDs - support both single and multiple
         $product_ids = [];
 
@@ -112,6 +126,9 @@ class MRV_Ajax_Handler {
         if (!$generation_data) {
             wp_send_json_error(['message' => __('Failed to save generated image.', 'shopvision')], 500);
         }
+
+        // Increment rate limit counter after successful generation
+        MRV_Rate_Limiter::increment();
 
         wp_send_json_success([
             'image_url'     => $generation_data['image_url'],

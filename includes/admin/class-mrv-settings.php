@@ -80,6 +80,18 @@ class MRV_Settings {
             'default'           => 24,
         ]);
 
+        register_setting('mrv_settings_general', 'mrv_rate_limit_guest', [
+            'type'              => 'integer',
+            'sanitize_callback' => 'absint',
+            'default'           => 10,
+        ]);
+
+        register_setting('mrv_settings_general', 'mrv_rate_limit_logged_in', [
+            'type'              => 'integer',
+            'sanitize_callback' => 'absint',
+            'default'           => 20,
+        ]);
+
         register_setting('mrv_settings_general', 'mrv_order_button_enabled', [
             'type'              => 'boolean',
             'sanitize_callback' => 'rest_sanitize_boolean',
@@ -465,6 +477,8 @@ class MRV_Settings {
         $custom_prompt = get_option('mrv_custom_prompt', '');
         $button_text = get_option('mrv_button_text', 'Visualize in your room');
         $cleanup_hours = get_option('mrv_cleanup_hours', 24);
+        $rate_limit_guest = get_option('mrv_rate_limit_guest', 10);
+        $rate_limit_logged_in = get_option('mrv_rate_limit_logged_in', 20);
         $order_button_enabled = get_option('mrv_order_button_enabled', false);
         $order_button_text = get_option('mrv_order_button_text', 'Order This');
         $download_button_text = get_option('mrv_download_button_text', 'Download');
@@ -929,6 +943,53 @@ class MRV_Settings {
                         </div>
                         <p class="mrv-field-description">
                             <?php esc_html_e('Generated images are automatically deleted after this period. Set to 0 to never delete automatically.', 'shopvision'); ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rate Limiting -->
+            <div class="mrv-card">
+                <div class="mrv-card-header">
+                    <h2 class="mrv-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <?php esc_html_e('Rate Limiting', 'shopvision'); ?>
+                    </h2>
+                </div>
+                <div class="mrv-card-body">
+                    <p class="mrv-section-description">
+                        <?php esc_html_e('Protect your API usage by limiting visualizations per user per hour.', 'shopvision'); ?>
+                    </p>
+
+                    <div class="mrv-field">
+                        <label class="mrv-field-label" for="mrv_rate_limit_guest">
+                            <?php esc_html_e('Guest limit', 'shopvision'); ?>
+                        </label>
+                        <div class="mrv-field-inline">
+                            <input type="number" id="mrv_rate_limit_guest" name="mrv_rate_limit_guest"
+                                   value="<?php echo esc_attr($rate_limit_guest); ?>"
+                                   min="0" max="100" step="1">
+                            <span class="mrv-field-suffix"><?php esc_html_e('per hour', 'shopvision'); ?></span>
+                        </div>
+                        <p class="mrv-field-description">
+                            <?php esc_html_e('Maximum visualizations per hour for guests (not logged in). Set to 0 for unlimited.', 'shopvision'); ?>
+                        </p>
+                    </div>
+
+                    <div class="mrv-field">
+                        <label class="mrv-field-label" for="mrv_rate_limit_logged_in">
+                            <?php esc_html_e('Logged-in user limit', 'shopvision'); ?>
+                        </label>
+                        <div class="mrv-field-inline">
+                            <input type="number" id="mrv_rate_limit_logged_in" name="mrv_rate_limit_logged_in"
+                                   value="<?php echo esc_attr($rate_limit_logged_in); ?>"
+                                   min="0" max="100" step="1">
+                            <span class="mrv-field-suffix"><?php esc_html_e('per hour', 'shopvision'); ?></span>
+                        </div>
+                        <p class="mrv-field-description">
+                            <?php esc_html_e('Maximum visualizations per hour for logged-in users. Set to 0 for unlimited.', 'shopvision'); ?>
                         </p>
                     </div>
                 </div>
