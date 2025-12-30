@@ -353,6 +353,12 @@ class MRV_Settings {
             'default'           => 30,
         ]);
 
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_fade_width', [
+            'type'              => 'integer',
+            'sanitize_callback' => 'absint',
+            'default'           => 150,
+        ]);
+
         register_setting('mrv_settings_widgets', 'mrv_widget_marquee_status', [
             'type'              => 'string',
             'sanitize_callback' => 'sanitize_text_field',
@@ -1936,6 +1942,7 @@ class MRV_Settings {
         $button_color = get_option('mrv_widget_marquee_button_color', '') ?: get_option('mrv_accent_color', '#2563eb');
         $height = get_option('mrv_widget_marquee_height', '60vh');
         $speed = get_option('mrv_widget_marquee_speed', 30);
+        $fade_width = get_option('mrv_widget_marquee_fade_width', 150);
         $status = get_option('mrv_widget_marquee_status', 'featured');
         $limit = get_option('mrv_widget_marquee_limit', 12);
         $link_product = get_option('mrv_widget_marquee_link_product', true);
@@ -2066,6 +2073,16 @@ class MRV_Settings {
                                         <span class="mrv-input-suffix"><?php esc_html_e('seconds', 'shopvision'); ?></span>
                                     </div>
                                     <p class="mrv-field-description"><?php esc_html_e('Higher = slower. Recommended: 20-40.', 'shopvision'); ?></p>
+                                </div>
+
+                                <div class="mrv-field">
+                                    <label class="mrv-field-label" for="mrv_widget_marquee_fade_width"><?php esc_html_e('Edge Fade', 'shopvision'); ?></label>
+                                    <div class="mrv-input-with-suffix">
+                                        <input type="number" id="mrv_widget_marquee_fade_width" name="mrv_widget_marquee_fade_width"
+                                               value="<?php echo esc_attr($fade_width); ?>" min="0" max="300" step="10" style="width: 80px;" />
+                                        <span class="mrv-input-suffix">px</span>
+                                    </div>
+                                    <p class="mrv-field-description"><?php esc_html_e('Gradient fade on left/right edges. 0 = no fade.', 'shopvision'); ?></p>
                                 </div>
                             </div>
                         </div>

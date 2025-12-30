@@ -80,6 +80,7 @@ class MRV_Widgets {
             'button_color'  => get_option('mrv_widget_marquee_button_color', get_option('mrv_accent_color', '#2563eb')),
             'height'        => get_option('mrv_widget_marquee_height', '60vh'),
             'speed'         => (int) get_option('mrv_widget_marquee_speed', 30),
+            'fade_width'    => (int) get_option('mrv_widget_marquee_fade_width', 150),
             'status'        => get_option('mrv_widget_marquee_status', 'featured'),
             'limit'         => (int) get_option('mrv_widget_marquee_limit', 12),
             'link_product'  => (bool) get_option('mrv_widget_marquee_link_product', true),
@@ -192,6 +193,7 @@ class MRV_Widgets {
             --mrv-overlay-color: <?php echo esc_attr($settings['overlay_color']); ?>;
             --mrv-text-color: <?php echo esc_attr($settings['text_color']); ?>;
             --mrv-button-color: <?php echo esc_attr($settings['button_color']); ?>;
+            --mrv-fade-width: <?php echo esc_attr($settings['fade_width']); ?>px;
         ">
             <div class="mrv-marquee-track">
                 <!-- Row 1: Scroll left -->

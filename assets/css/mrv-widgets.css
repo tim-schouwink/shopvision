@@ -170,7 +170,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 150px;
+    width: var(--mrv-fade-width, 150px);
     z-index: 5;
     pointer-events: none;
 }
@@ -202,11 +202,6 @@
 
     .mrv-marquee-title {
         font-size: 2rem;
-    }
-
-    .mrv-marquee-gallery::before,
-    .mrv-marquee-gallery::after {
-        width: 100px;
     }
 }
 
@@ -244,11 +239,6 @@
         padding: 12px 24px;
         font-size: 0.9rem;
     }
-
-    .mrv-marquee-gallery::before,
-    .mrv-marquee-gallery::after {
-        width: 60px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -264,11 +254,6 @@
 
     .mrv-marquee-title {
         font-size: 1.25rem;
-    }
-
-    .mrv-marquee-gallery::before,
-    .mrv-marquee-gallery::after {
-        width: 40px;
     }
 }
 
