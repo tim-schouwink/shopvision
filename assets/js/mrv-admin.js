@@ -932,3 +932,67 @@
         });
     });
 })(jQuery);
+
+/**
+ * Widget Tab - Accordion Toggle
+ */
+(function($) {
+    'use strict';
+
+    $(function() {
+        // Handle accordion header click
+        $(document).on('click', '.mrv-accordion-header', function() {
+            const $header = $(this);
+            const $body = $header.next('.mrv-accordion-body');
+            const isExpanded = $header.attr('aria-expanded') === 'true';
+
+            // Toggle aria-expanded attribute
+            $header.attr('aria-expanded', !isExpanded);
+
+            // Slide toggle the body
+            $body.slideToggle(200);
+        });
+
+        // Initialize accordion states based on aria-expanded
+        $('.mrv-accordion-header').each(function() {
+            const $header = $(this);
+            const $body = $header.next('.mrv-accordion-body');
+            const isExpanded = $header.attr('aria-expanded') === 'true';
+
+            // Set initial visibility without animation
+            if (isExpanded) {
+                $body.show();
+            } else {
+                $body.hide();
+            }
+        });
+    });
+})(jQuery);
+
+/**
+ * Widget Tab - Shortcode Copy
+ */
+(function($) {
+    'use strict';
+
+    $(function() {
+        // Handle copy shortcode click
+        $(document).on('click', '.mrv-shortcode-copy', function() {
+            const $btn = $(this);
+            const $code = $btn.siblings('.mrv-shortcode-code');
+            const text = $code.text().trim();
+
+            navigator.clipboard.writeText(text).then(function() {
+                // Show success feedback
+                const originalText = $btn.text();
+                $btn.text('Gekopieerd!');
+                $btn.addClass('copied');
+
+                setTimeout(function() {
+                    $btn.text(originalText);
+                    $btn.removeClass('copied');
+                }, 2000);
+            });
+        });
+    });
+})(jQuery);

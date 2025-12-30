@@ -1957,235 +1957,267 @@ class MRV_Settings {
         // Get preview images
         $preview_images = MRV_Widgets::get_preview_images($status, $limit);
         $image_count = count($preview_images);
+
+        // Determine step statuses
+        $step1_done = $image_count >= 6;
+        $step2_done = $enabled;
+        $step3_done = $step1_done && $step2_done;
         ?>
         <h1 class="mrv-page-title"><?php esc_html_e('Widgets', 'shopvision'); ?></h1>
-        <p class="mrv-page-description"><?php esc_html_e('Display approved visualizations on your website using shortcodes.', 'shopvision'); ?></p>
+        <p class="mrv-page-description"><?php esc_html_e('Display approved visualizations on your website.', 'shopvision'); ?></p>
 
         <form method="post" action="options.php">
             <?php settings_fields('mrv_settings_widgets'); ?>
             <input type="hidden" name="_wp_http_referer" value="<?php echo esc_url(add_query_arg('tab', 'widgets', admin_url('admin.php?page=mrv-settings'))); ?>">
 
-            <!-- Marquee Gallery Widget -->
-            <div class="mrv-card">
-                <div class="mrv-card-header">
-                    <h2 class="mrv-card-title">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-                        </svg>
-                        <?php esc_html_e('Marquee Gallery', 'shopvision'); ?>
-                    </h2>
-                    <?php if ($enabled): ?>
-                        <span class="mrv-status mrv-status-success">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-                            <?php esc_html_e('Enabled', 'shopvision'); ?>
-                        </span>
-                    <?php endif; ?>
-                </div>
-                <div class="mrv-card-body">
-                    <p class="mrv-card-intro"><?php esc_html_e('A dynamic gallery with two scrolling rows of visualizations and a text overlay.', 'shopvision'); ?></p>
-
-                    <!-- Enable Toggle -->
-                    <div class="mrv-field">
-                        <div class="mrv-icon-toggle-row">
+            <!-- Quick Start Hero -->
+            <div class="mrv-widget-hero">
+                <div class="mrv-widget-hero-content">
+                    <div class="mrv-widget-steps">
+                        <div class="mrv-widget-step <?php echo $step1_done ? 'mrv-step-done' : ''; ?>">
+                            <div class="mrv-step-number"><?php echo $step1_done ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : '1'; ?></div>
+                            <div class="mrv-step-content">
+                                <span class="mrv-step-title"><?php esc_html_e('Feature Images', 'shopvision'); ?></span>
+                                <span class="mrv-step-desc">
+                                    <?php if ($step1_done): ?>
+                                        <?php printf(esc_html__('%d ready', 'shopvision'), $image_count); ?>
+                                    <?php else: ?>
+                                        <?php printf(esc_html__('%d/6 minimum', 'shopvision'), $image_count); ?>
+                                    <?php endif; ?>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mrv-step-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        </div>
+                        <div class="mrv-widget-step <?php echo $step2_done ? 'mrv-step-done' : ''; ?>">
+                            <div class="mrv-step-number"><?php echo $step2_done ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : '2'; ?></div>
+                            <div class="mrv-step-content">
+                                <span class="mrv-step-title"><?php esc_html_e('Enable Widget', 'shopvision'); ?></span>
+                                <span class="mrv-step-desc"><?php echo $step2_done ? esc_html__('Active', 'shopvision') : esc_html__('Toggle below', 'shopvision'); ?></span>
+                            </div>
+                        </div>
+                        <div class="mrv-step-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        </div>
+                        <div class="mrv-widget-step <?php echo $step3_done ? 'mrv-step-done' : ''; ?>">
+                            <div class="mrv-step-number"><?php echo $step3_done ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : '3'; ?></div>
+                            <div class="mrv-step-content">
+                                <span class="mrv-step-title"><?php esc_html_e('Add Shortcode', 'shopvision'); ?></span>
+                                <span class="mrv-step-desc"><?php esc_html_e('Paste on page', 'shopvision'); ?></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mrv-widget-hero-actions">
+                        <div class="mrv-widget-toggle-inline">
                             <label class="mrv-toggle">
                                 <input type="hidden" name="mrv_widget_marquee_enabled" value="0">
                                 <input type="checkbox" id="mrv_widget_marquee_enabled" name="mrv_widget_marquee_enabled" value="1" <?php checked($enabled); ?>>
                                 <span class="mrv-toggle-slider"></span>
                             </label>
-                            <span class="mrv-toggle-text"><?php esc_html_e('Enable Widget', 'shopvision'); ?></span>
+                            <span class="mrv-toggle-label"><?php echo $enabled ? esc_html__('Widget Enabled', 'shopvision') : esc_html__('Widget Disabled', 'shopvision'); ?></span>
                         </div>
-                        <p class="mrv-field-description"><?php esc_html_e('Activate this widget to use it on your site via shortcode.', 'shopvision'); ?></p>
+                        <div class="mrv-shortcode-inline">
+                            <code>[shopvision_gallery]</code>
+                            <button type="button" class="mrv-copy-btn-small" onclick="navigator.clipboard.writeText('[shopvision_gallery]').then(() => { this.textContent = '<?php esc_attr_e('Copied!', 'shopvision'); ?>'; setTimeout(() => { this.innerHTML = '<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\'/></svg>'; }, 1500); });">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            </button>
+                        </div>
                     </div>
+                </div>
+                <?php if (!$step1_done): ?>
+                    <div class="mrv-widget-hero-notice">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span><?php printf(esc_html__('Feature at least 6 images in the %sGenerations tab%s to enable this widget.', 'shopvision'), '<a href="' . esc_url(admin_url('admin.php?page=mrv-settings&tab=generations')) . '">', '</a>'); ?></span>
+                    </div>
+                <?php endif; ?>
+            </div>
 
-                    <div class="mrv-widget-settings<?php echo !$enabled ? ' mrv-widget-disabled' : ''; ?>" id="mrv-widget-settings">
+            <!-- Configuration Accordions -->
+            <div class="mrv-widget-config<?php echo !$enabled ? ' mrv-widget-disabled' : ''; ?>" id="mrv-widget-settings">
 
-                        <!-- Text & Styling Section -->
-                        <div class="mrv-fields-grid">
-                            <!-- Left Column: Text Settings -->
-                            <div class="mrv-fields-column">
-                                <h3 class="mrv-fields-title"><?php esc_html_e('Overlay Text', 'shopvision'); ?></h3>
-
-                                <div class="mrv-field">
-                                    <label class="mrv-field-label" for="mrv_widget_marquee_title"><?php esc_html_e('Title', 'shopvision'); ?></label>
-                                    <input type="text" id="mrv_widget_marquee_title" name="mrv_widget_marquee_title"
-                                           value="<?php echo esc_attr($title); ?>" class="regular-text" />
-                                </div>
-
-                                <div class="mrv-field">
-                                    <label class="mrv-field-label" for="mrv_widget_marquee_subtitle"><?php esc_html_e('Subtitle', 'shopvision'); ?></label>
-                                    <input type="text" id="mrv_widget_marquee_subtitle" name="mrv_widget_marquee_subtitle"
-                                           value="<?php echo esc_attr($subtitle); ?>" class="regular-text" />
-                                    <p class="mrv-field-description"><?php esc_html_e('Optional text below the title.', 'shopvision'); ?></p>
-                                </div>
-
-                                <div class="mrv-field">
-                                    <label class="mrv-field-label" for="mrv_widget_marquee_button_text"><?php esc_html_e('Button Text', 'shopvision'); ?></label>
-                                    <input type="text" id="mrv_widget_marquee_button_text" name="mrv_widget_marquee_button_text"
-                                           value="<?php echo esc_attr($button_text); ?>" class="regular-text" />
-                                </div>
-
-                                <div class="mrv-field">
-                                    <label class="mrv-field-label" for="mrv_widget_marquee_button_url"><?php esc_html_e('Button URL', 'shopvision'); ?></label>
-                                    <input type="text" id="mrv_widget_marquee_button_url" name="mrv_widget_marquee_button_url"
-                                           value="<?php echo esc_attr($button_url); ?>" class="regular-text" />
-                                </div>
+                <!-- Content Section -->
+                <div class="mrv-accordion">
+                    <button type="button" class="mrv-accordion-header" aria-expanded="true">
+                        <span class="mrv-accordion-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        </span>
+                        <span class="mrv-accordion-title"><?php esc_html_e('Content', 'shopvision'); ?></span>
+                        <span class="mrv-accordion-desc"><?php esc_html_e('Title, subtitle, and button', 'shopvision'); ?></span>
+                        <span class="mrv-accordion-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                        </span>
+                    </button>
+                    <div class="mrv-accordion-body" style="display: block;">
+                        <div class="mrv-accordion-grid">
+                            <div class="mrv-field">
+                                <label class="mrv-field-label" for="mrv_widget_marquee_title"><?php esc_html_e('Title', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_title" name="mrv_widget_marquee_title"
+                                       value="<?php echo esc_attr($title); ?>" class="regular-text" placeholder="<?php esc_attr_e('e.g. Customer Visualizations', 'shopvision'); ?>" />
                             </div>
-
-                            <!-- Right Column: Styling -->
-                            <div class="mrv-fields-column">
-                                <h3 class="mrv-fields-title"><?php esc_html_e('Styling', 'shopvision'); ?></h3>
-
-                                <div class="mrv-color-field">
-                                    <label class="mrv-field-label"><?php esc_html_e('Background', 'shopvision'); ?></label>
-                                    <input type="text" id="mrv_widget_marquee_bg_color" name="mrv_widget_marquee_bg_color"
-                                           value="<?php echo esc_attr($bg_color); ?>" class="mrv-color-picker" data-default-color="#f9fafb">
-                                    <p class="mrv-field-description"><?php esc_html_e('Also used for fade effect on edges.', 'shopvision'); ?></p>
-                                </div>
-
-                                <div class="mrv-color-field">
-                                    <label class="mrv-field-label"><?php esc_html_e('Overlay Background', 'shopvision'); ?></label>
-                                    <input type="text" id="mrv_widget_marquee_overlay_color" name="mrv_widget_marquee_overlay_color"
-                                           value="<?php echo esc_attr($overlay_color); ?>" class="mrv-color-picker-alpha" data-default-color="rgba(0,0,0,0.6)">
-                                    <p class="mrv-field-description"><?php esc_html_e('Background of the text box. Use rgba for transparency, e.g. rgba(0,0,0,0.6)', 'shopvision'); ?></p>
-                                </div>
-
-                                <div class="mrv-color-field">
-                                    <label class="mrv-field-label"><?php esc_html_e('Text Color', 'shopvision'); ?></label>
-                                    <input type="text" id="mrv_widget_marquee_text_color" name="mrv_widget_marquee_text_color"
-                                           value="<?php echo esc_attr($text_color); ?>" class="mrv-color-picker" data-default-color="#ffffff">
-                                </div>
-
-                                <div class="mrv-color-field">
-                                    <label class="mrv-field-label"><?php esc_html_e('Button Color', 'shopvision'); ?></label>
-                                    <input type="text" id="mrv_widget_marquee_button_color" name="mrv_widget_marquee_button_color"
-                                           value="<?php echo esc_attr($button_color); ?>" class="mrv-color-picker" data-default-color="#2563eb">
-                                </div>
-
-                                <div class="mrv-field">
-                                    <label class="mrv-field-label" for="mrv_widget_marquee_height"><?php esc_html_e('Height', 'shopvision'); ?></label>
-                                    <select id="mrv_widget_marquee_height" name="mrv_widget_marquee_height">
-                                        <option value="40vh" <?php selected($height, '40vh'); ?>>40vh (<?php esc_html_e('Small', 'shopvision'); ?>)</option>
-                                        <option value="50vh" <?php selected($height, '50vh'); ?>>50vh (<?php esc_html_e('Medium', 'shopvision'); ?>)</option>
-                                        <option value="60vh" <?php selected($height, '60vh'); ?>>60vh (<?php esc_html_e('Large', 'shopvision'); ?>)</option>
-                                        <option value="80vh" <?php selected($height, '80vh'); ?>>80vh (<?php esc_html_e('Extra Large', 'shopvision'); ?>)</option>
-                                        <option value="100vh" <?php selected($height, '100vh'); ?>>100vh (<?php esc_html_e('Full Screen', 'shopvision'); ?>)</option>
-                                    </select>
-                                </div>
-
-                                <div class="mrv-field">
-                                    <label class="mrv-field-label" for="mrv_widget_marquee_speed"><?php esc_html_e('Animation Speed', 'shopvision'); ?></label>
-                                    <div class="mrv-input-with-suffix">
-                                        <input type="number" id="mrv_widget_marquee_speed" name="mrv_widget_marquee_speed"
-                                               value="<?php echo esc_attr($speed); ?>" min="10" max="120" step="5" style="width: 80px;" />
-                                        <span class="mrv-input-suffix"><?php esc_html_e('seconds', 'shopvision'); ?></span>
-                                    </div>
-                                    <p class="mrv-field-description"><?php esc_html_e('Higher = slower. Recommended: 20-40.', 'shopvision'); ?></p>
-                                </div>
-
-                                <div class="mrv-field">
-                                    <label class="mrv-field-label" for="mrv_widget_marquee_fade_width"><?php esc_html_e('Edge Fade', 'shopvision'); ?></label>
-                                    <div class="mrv-input-with-suffix">
-                                        <input type="number" id="mrv_widget_marquee_fade_width" name="mrv_widget_marquee_fade_width"
-                                               value="<?php echo esc_attr($fade_width); ?>" min="0" max="300" step="10" style="width: 80px;" />
-                                        <span class="mrv-input-suffix">px</span>
-                                    </div>
-                                    <p class="mrv-field-description"><?php esc_html_e('Gradient fade on left/right edges. 0 = no fade.', 'shopvision'); ?></p>
-                                </div>
-
-                                <div class="mrv-field">
-                                    <label class="mrv-field-label" for="mrv_widget_marquee_border_radius"><?php esc_html_e('Border Radius', 'shopvision'); ?></label>
-                                    <div class="mrv-input-with-suffix">
-                                        <input type="number" id="mrv_widget_marquee_border_radius" name="mrv_widget_marquee_border_radius"
-                                               value="<?php echo esc_attr($border_radius); ?>" min="0" max="50" step="1" style="width: 80px;" />
-                                        <span class="mrv-input-suffix">px</span>
-                                    </div>
-                                    <p class="mrv-field-description"><?php esc_html_e('Rounded corners on images. 0 = square.', 'shopvision'); ?></p>
-                                </div>
+                            <div class="mrv-field">
+                                <label class="mrv-field-label" for="mrv_widget_marquee_subtitle"><?php esc_html_e('Subtitle', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_subtitle" name="mrv_widget_marquee_subtitle"
+                                       value="<?php echo esc_attr($subtitle); ?>" class="regular-text" placeholder="<?php esc_attr_e('Optional', 'shopvision'); ?>" />
+                            </div>
+                            <div class="mrv-field">
+                                <label class="mrv-field-label" for="mrv_widget_marquee_button_text"><?php esc_html_e('Button Text', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_button_text" name="mrv_widget_marquee_button_text"
+                                       value="<?php echo esc_attr($button_text); ?>" class="regular-text" />
+                            </div>
+                            <div class="mrv-field">
+                                <label class="mrv-field-label" for="mrv_widget_marquee_button_url"><?php esc_html_e('Button URL', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_button_url" name="mrv_widget_marquee_button_url"
+                                       value="<?php echo esc_attr($button_url); ?>" class="regular-text" placeholder="/shop" />
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Images Card -->
-            <div class="mrv-card">
-                <div class="mrv-card-header">
-                    <h2 class="mrv-card-title">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
-                        </svg>
-                        <?php esc_html_e('Images', 'shopvision'); ?>
-                    </h2>
-                    <?php if ($image_count >= 6): ?>
-                        <span class="mrv-status mrv-status-success">
-                            <?php printf(esc_html__('%d available', 'shopvision'), $image_count); ?>
+                <!-- Colors Section -->
+                <div class="mrv-accordion">
+                    <button type="button" class="mrv-accordion-header" aria-expanded="false">
+                        <span class="mrv-accordion-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 22c4.418 0 8-3.582 8-8 0-5.523-3.582-10-8-10S4 8.477 4 14c0 4.418 3.582 8 8 8z"/></svg>
                         </span>
-                    <?php else: ?>
-                        <span class="mrv-status mrv-status-warning">
-                            <?php printf(esc_html__('%d available', 'shopvision'), $image_count); ?>
+                        <span class="mrv-accordion-title"><?php esc_html_e('Colors', 'shopvision'); ?></span>
+                        <span class="mrv-accordion-desc"><?php esc_html_e('Background, overlay, text, and button colors', 'shopvision'); ?></span>
+                        <span class="mrv-accordion-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                         </span>
-                    <?php endif; ?>
-                </div>
-                <div class="mrv-card-body">
-                    <div class="mrv-fields-grid">
-                        <div class="mrv-field">
-                            <label class="mrv-field-label" for="mrv_widget_marquee_status"><?php esc_html_e('Show Visualizations', 'shopvision'); ?></label>
-                            <select id="mrv_widget_marquee_status" name="mrv_widget_marquee_status">
-                                <option value="featured" <?php selected($status, 'featured'); ?>><?php esc_html_e('Featured only', 'shopvision'); ?></option>
-                                <option value="approved,featured" <?php selected($status, 'approved,featured'); ?>><?php esc_html_e('Approved + Featured', 'shopvision'); ?></option>
-                            </select>
-                        </div>
-
-                        <div class="mrv-field">
-                            <label class="mrv-field-label" for="mrv_widget_marquee_limit"><?php esc_html_e('Maximum Images', 'shopvision'); ?></label>
-                            <input type="number" id="mrv_widget_marquee_limit" name="mrv_widget_marquee_limit"
-                                   value="<?php echo esc_attr($limit); ?>" min="6" max="30" step="1" style="width: 80px;" />
-                            <p class="mrv-field-description"><?php esc_html_e('Minimum 6 required for widget to display.', 'shopvision'); ?></p>
+                    </button>
+                    <div class="mrv-accordion-body">
+                        <div class="mrv-accordion-grid">
+                            <div class="mrv-color-field">
+                                <label class="mrv-field-label"><?php esc_html_e('Background', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_bg_color" name="mrv_widget_marquee_bg_color"
+                                       value="<?php echo esc_attr($bg_color); ?>" class="mrv-color-picker" data-default-color="#f9fafb">
+                                <p class="mrv-field-description"><?php esc_html_e('Gallery background and edge fade color', 'shopvision'); ?></p>
+                            </div>
+                            <div class="mrv-color-field">
+                                <label class="mrv-field-label"><?php esc_html_e('Overlay Background', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_overlay_color" name="mrv_widget_marquee_overlay_color"
+                                       value="<?php echo esc_attr($overlay_color); ?>" class="mrv-color-picker-alpha" data-default-color="rgba(0,0,0,0.6)">
+                                <p class="mrv-field-description"><?php esc_html_e('Use rgba() for transparency', 'shopvision'); ?></p>
+                            </div>
+                            <div class="mrv-color-field">
+                                <label class="mrv-field-label"><?php esc_html_e('Text Color', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_text_color" name="mrv_widget_marquee_text_color"
+                                       value="<?php echo esc_attr($text_color); ?>" class="mrv-color-picker" data-default-color="#ffffff">
+                            </div>
+                            <div class="mrv-color-field">
+                                <label class="mrv-field-label"><?php esc_html_e('Button Color', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_button_color" name="mrv_widget_marquee_button_color"
+                                       value="<?php echo esc_attr($button_color); ?>" class="mrv-color-picker" data-default-color="#2563eb">
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="mrv-field">
-                        <div class="mrv-icon-toggle-row">
-                            <label class="mrv-toggle">
-                                <input type="hidden" name="mrv_widget_marquee_link_product" value="0">
-                                <input type="checkbox" id="mrv_widget_marquee_link_product" name="mrv_widget_marquee_link_product" value="1" <?php checked($link_product); ?>>
-                                <span class="mrv-toggle-slider"></span>
-                            </label>
-                            <span class="mrv-toggle-text"><?php esc_html_e('Link images to product pages', 'shopvision'); ?></span>
+                <!-- Layout Section -->
+                <div class="mrv-accordion">
+                    <button type="button" class="mrv-accordion-header" aria-expanded="false">
+                        <span class="mrv-accordion-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                        </span>
+                        <span class="mrv-accordion-title"><?php esc_html_e('Layout', 'shopvision'); ?></span>
+                        <span class="mrv-accordion-desc"><?php esc_html_e('Height, speed, and image styling', 'shopvision'); ?></span>
+                        <span class="mrv-accordion-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                        </span>
+                    </button>
+                    <div class="mrv-accordion-body">
+                        <div class="mrv-accordion-grid">
+                            <div class="mrv-field">
+                                <label class="mrv-field-label" for="mrv_widget_marquee_height"><?php esc_html_e('Height', 'shopvision'); ?></label>
+                                <select id="mrv_widget_marquee_height" name="mrv_widget_marquee_height">
+                                    <option value="40vh" <?php selected($height, '40vh'); ?>>40vh - <?php esc_html_e('Small', 'shopvision'); ?></option>
+                                    <option value="50vh" <?php selected($height, '50vh'); ?>>50vh - <?php esc_html_e('Medium', 'shopvision'); ?></option>
+                                    <option value="60vh" <?php selected($height, '60vh'); ?>>60vh - <?php esc_html_e('Large', 'shopvision'); ?></option>
+                                    <option value="80vh" <?php selected($height, '80vh'); ?>>80vh - <?php esc_html_e('Extra Large', 'shopvision'); ?></option>
+                                    <option value="100vh" <?php selected($height, '100vh'); ?>>100vh - <?php esc_html_e('Full Screen', 'shopvision'); ?></option>
+                                </select>
+                            </div>
+                            <div class="mrv-field">
+                                <label class="mrv-field-label" for="mrv_widget_marquee_speed"><?php esc_html_e('Animation Speed', 'shopvision'); ?></label>
+                                <div class="mrv-input-with-suffix">
+                                    <input type="number" id="mrv_widget_marquee_speed" name="mrv_widget_marquee_speed"
+                                           value="<?php echo esc_attr($speed); ?>" min="10" max="120" step="5" style="width: 80px;" />
+                                    <span class="mrv-input-suffix"><?php esc_html_e('sec', 'shopvision'); ?></span>
+                                </div>
+                                <p class="mrv-field-description"><?php esc_html_e('Higher = slower', 'shopvision'); ?></p>
+                            </div>
+                            <div class="mrv-field">
+                                <label class="mrv-field-label" for="mrv_widget_marquee_fade_width"><?php esc_html_e('Edge Fade', 'shopvision'); ?></label>
+                                <div class="mrv-input-with-suffix">
+                                    <input type="number" id="mrv_widget_marquee_fade_width" name="mrv_widget_marquee_fade_width"
+                                           value="<?php echo esc_attr($fade_width); ?>" min="0" max="300" step="10" style="width: 80px;" />
+                                    <span class="mrv-input-suffix">px</span>
+                                </div>
+                                <p class="mrv-field-description"><?php esc_html_e('0 = no fade', 'shopvision'); ?></p>
+                            </div>
+                            <div class="mrv-field">
+                                <label class="mrv-field-label" for="mrv_widget_marquee_border_radius"><?php esc_html_e('Border Radius', 'shopvision'); ?></label>
+                                <div class="mrv-input-with-suffix">
+                                    <input type="number" id="mrv_widget_marquee_border_radius" name="mrv_widget_marquee_border_radius"
+                                           value="<?php echo esc_attr($border_radius); ?>" min="0" max="50" step="1" style="width: 80px;" />
+                                    <span class="mrv-input-suffix">px</span>
+                                </div>
+                                <p class="mrv-field-description"><?php esc_html_e('0 = square corners', 'shopvision'); ?></p>
+                            </div>
                         </div>
-                        <p class="mrv-field-description"><?php esc_html_e('When clicked, images navigate to the associated product page.', 'shopvision'); ?></p>
                     </div>
+                </div>
 
-                    <?php if ($image_count < 6): ?>
-                        <div class="mrv-notice mrv-notice-warning">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                            </svg>
-                            <span><?php printf(esc_html__('Only %d visualizations available. Need at least 6 for the widget to display. Mark more visualizations as "Featured" in the Generations tab.', 'shopvision'), $image_count); ?></span>
+                <!-- Images Section -->
+                <div class="mrv-accordion">
+                    <button type="button" class="mrv-accordion-header" aria-expanded="false">
+                        <span class="mrv-accordion-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                        </span>
+                        <span class="mrv-accordion-title"><?php esc_html_e('Images', 'shopvision'); ?></span>
+                        <span class="mrv-accordion-desc">
+                            <?php if ($image_count >= 6): ?>
+                                <span class="mrv-accordion-badge mrv-badge-success"><?php printf(esc_html__('%d available', 'shopvision'), $image_count); ?></span>
+                            <?php else: ?>
+                                <span class="mrv-accordion-badge mrv-badge-warning"><?php printf(esc_html__('%d/6 required', 'shopvision'), $image_count); ?></span>
+                            <?php endif; ?>
+                        </span>
+                        <span class="mrv-accordion-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                        </span>
+                    </button>
+                    <div class="mrv-accordion-body">
+                        <div class="mrv-accordion-grid">
+                            <div class="mrv-field">
+                                <label class="mrv-field-label" for="mrv_widget_marquee_status"><?php esc_html_e('Show', 'shopvision'); ?></label>
+                                <select id="mrv_widget_marquee_status" name="mrv_widget_marquee_status">
+                                    <option value="featured" <?php selected($status, 'featured'); ?>><?php esc_html_e('Featured only', 'shopvision'); ?></option>
+                                    <option value="approved,featured" <?php selected($status, 'approved,featured'); ?>><?php esc_html_e('Approved + Featured', 'shopvision'); ?></option>
+                                </select>
+                            </div>
+                            <div class="mrv-field">
+                                <label class="mrv-field-label" for="mrv_widget_marquee_limit"><?php esc_html_e('Maximum', 'shopvision'); ?></label>
+                                <div class="mrv-input-with-suffix">
+                                    <input type="number" id="mrv_widget_marquee_limit" name="mrv_widget_marquee_limit"
+                                           value="<?php echo esc_attr($limit); ?>" min="6" max="30" step="1" style="width: 80px;" />
+                                    <span class="mrv-input-suffix"><?php esc_html_e('images', 'shopvision'); ?></span>
+                                </div>
+                            </div>
                         </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <!-- Shortcode Card -->
-            <div class="mrv-card">
-                <div class="mrv-card-header">
-                    <h2 class="mrv-card-title">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-                        </svg>
-                        <?php esc_html_e('Shortcode', 'shopvision'); ?>
-                    </h2>
-                </div>
-                <div class="mrv-card-body">
-                    <p class="mrv-card-intro"><?php esc_html_e('Copy this shortcode and paste it anywhere on your site (pages, posts, or theme templates).', 'shopvision'); ?></p>
-                    <div class="mrv-shortcode-box">
-                        <code id="mrv-widget-shortcode">[shopvision_gallery]</code>
-                        <button type="button" class="mrv-copy-btn" onclick="navigator.clipboard.writeText('[shopvision_gallery]').then(() => { this.textContent = '<?php esc_attr_e('Copied!', 'shopvision'); ?>'; setTimeout(() => { this.textContent = '<?php esc_attr_e('Copy', 'shopvision'); ?>'; }, 2000); });">
-                            <?php esc_html_e('Copy', 'shopvision'); ?>
-                        </button>
+                        <div class="mrv-field" style="margin-top: 16px;">
+                            <div class="mrv-icon-toggle-row">
+                                <label class="mrv-toggle">
+                                    <input type="hidden" name="mrv_widget_marquee_link_product" value="0">
+                                    <input type="checkbox" id="mrv_widget_marquee_link_product" name="mrv_widget_marquee_link_product" value="1" <?php checked($link_product); ?>>
+                                    <span class="mrv-toggle-slider"></span>
+                                </label>
+                                <span class="mrv-toggle-text"><?php esc_html_e('Link images to product pages', 'shopvision'); ?></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
             <!-- Save Button -->
