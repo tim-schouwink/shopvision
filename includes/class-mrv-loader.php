@@ -86,6 +86,7 @@ class MRV_Loader {
         $this->add_action('wp_ajax_mrv_search_products', $admin, 'ajax_search_products');
         $this->add_action('wp_ajax_mrv_get_all_products', $admin, 'ajax_get_all_products');
         $this->add_action('wp_ajax_mrv_test_api_key', $admin, 'ajax_test_api_key');
+        $this->add_action('wp_ajax_mrv_toggle_featured', $admin, 'ajax_toggle_featured');
     }
 
     /**

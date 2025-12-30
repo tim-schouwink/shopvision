@@ -872,3 +872,63 @@
         });
     });
 })(jQuery);
+
+/**
+ * Generations List - Featured Toggle via AJAX
+ */
+(function($) {
+    'use strict';
+
+    $(function() {
+        // Handle featured toggle click
+        $(document).on('change', '.mrv-toggle-featured', function() {
+            const $checkbox = $(this);
+            const postId = $checkbox.data('id');
+            const isFeatured = $checkbox.is(':checked');
+            const newStatus = isFeatured ? 'featured' : 'approved';
+
+            // Disable checkbox during request
+            $checkbox.prop('disabled', true);
+
+            $.ajax({
+                url: mrvAdmin.ajaxUrl,
+                type: 'POST',
+                data: {
+                    action: 'mrv_toggle_featured',
+                    security: mrvAdmin.nonce,
+                    post_id: postId,
+                    status: newStatus
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Update status badge in the same row
+                        const $row = $checkbox.closest('tr');
+                        const $statusBadge = $row.find('.mrv-status-badge');
+
+                        if (isFeatured) {
+                            $statusBadge
+                                .css('background-color', '#8b5cf6')
+                                .text(mrvAdminI18n.featured || 'Featured');
+                        } else {
+                            $statusBadge
+                                .css('background-color', '#10b981')
+                                .text(mrvAdminI18n.approved || 'Approved');
+                        }
+                    } else {
+                        // Revert checkbox on error
+                        $checkbox.prop('checked', !isFeatured);
+                        alert(response.data?.message || 'Error updating status');
+                    }
+                },
+                error: function() {
+                    // Revert checkbox on error
+                    $checkbox.prop('checked', !isFeatured);
+                    alert('Connection error');
+                },
+                complete: function() {
+                    $checkbox.prop('disabled', false);
+                }
+            });
+        });
+    });
+})(jQuery);

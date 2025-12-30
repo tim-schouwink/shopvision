@@ -34,6 +34,7 @@ class MRV_Generations_List extends WP_List_Table {
             'product'    => __('Product', 'shopvision'),
             'user'       => __('User', 'shopvision'),
             'status'     => __('Status', 'shopvision'),
+            'featured'   => __('Featured', 'shopvision'),
             'created'    => __('Created', 'shopvision'),
             'expires'    => __('Expires', 'shopvision'),
         ];
@@ -205,12 +206,12 @@ class MRV_Generations_List extends WP_List_Table {
         // Build row actions
         $actions = [];
         $base_url = add_query_arg([
-            'page' => 'shopvision',
+            'page' => 'mrv-settings',
             'tab'  => 'generations',
         ], admin_url('admin.php'));
 
         // Show actions based on current status
-        if ($current_status !== 'approved') {
+        if ($current_status !== 'approved' && $current_status !== 'featured') {
             $actions['approve'] = sprintf(
                 '<a href="%s">%s</a>',
                 esc_url(wp_nonce_url(add_query_arg([
@@ -218,17 +219,6 @@ class MRV_Generations_List extends WP_List_Table {
                     'generation' => $item->ID,
                 ], $base_url), 'bulk-' . $this->_args['plural'])),
                 esc_html__('Approve', 'shopvision')
-            );
-        }
-
-        if ($current_status !== 'featured') {
-            $actions['feature'] = sprintf(
-                '<a href="%s" style="color: #8b5cf6;">%s</a>',
-                esc_url(wp_nonce_url(add_query_arg([
-                    'action'     => 'feature',
-                    'generation' => $item->ID,
-                ], $base_url), 'bulk-' . $this->_args['plural'])),
-                esc_html__('Feature', 'shopvision')
             );
         }
 
@@ -354,6 +344,29 @@ class MRV_Generations_List extends WP_List_Table {
             '<span class="mrv-status-badge" style="background-color: %s;">%s</span>',
             esc_attr($colors[$status] ?? '#6b7280'),
             esc_html($labels[$status] ?? $status)
+        );
+    }
+
+    /**
+     * Featured toggle column
+     */
+    public function column_featured($item): string {
+        $status = get_post_meta($item->ID, '_mrv_consent_status', true) ?: 'pending';
+        $is_featured = ($status === 'featured');
+        $is_approved = in_array($status, ['approved', 'featured'], true);
+
+        // Only show toggle for approved/featured items
+        if (!$is_approved) {
+            return '<span class="mrv-featured-disabled" title="' . esc_attr__('Only approved items can be featured', 'shopvision') . '">—</span>';
+        }
+
+        return sprintf(
+            '<label class="mrv-featured-toggle">
+                <input type="checkbox" class="mrv-toggle-featured" data-id="%d" %s />
+                <span class="mrv-toggle-slider mrv-toggle-slider--small"></span>
+            </label>',
+            $item->ID,
+            checked($is_featured, true, false)
         );
     }
 

@@ -68,6 +68,13 @@ class MRV_Admin {
                 'wand'    => '<path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8L19 13"/><path d="M15 9h.01"/><path d="M17.8 6.2L19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2L11 5"/>',
             ],
         ]);
+
+        wp_localize_script('mrv-admin', 'mrvAdminI18n', [
+            'featured' => __('Featured', 'shopvision'),
+            'approved' => __('Approved', 'shopvision'),
+            'pending'  => __('Pending', 'shopvision'),
+            'rejected' => __('Rejected', 'shopvision'),
+        ]);
     }
 
     /**
@@ -123,6 +130,37 @@ class MRV_Admin {
             'ids'   => $product_ids,
             'total' => count($product_ids),
         ]);
+    }
+
+    /**
+     * AJAX handler for toggling featured status
+     */
+    public function ajax_toggle_featured(): void {
+        check_ajax_referer('search-products', 'security');
+
+        if (!current_user_can('manage_woocommerce')) {
+            wp_send_json_error(['message' => __('Access denied.', 'shopvision')]);
+        }
+
+        $post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
+        $status = isset($_POST['status']) ? sanitize_key($_POST['status']) : '';
+
+        if (!$post_id) {
+            wp_send_json_error(['message' => __('Invalid post ID.', 'shopvision')]);
+        }
+
+        if (!in_array($status, ['approved', 'featured'], true)) {
+            wp_send_json_error(['message' => __('Invalid status.', 'shopvision')]);
+        }
+
+        // Update the consent status
+        $result = MRV_Post_Types::update_consent($post_id, $status);
+
+        if ($result) {
+            wp_send_json_success(['status' => $status]);
+        } else {
+            wp_send_json_error(['message' => __('Failed to update status.', 'shopvision')]);
+        }
     }
 
     /**
