@@ -77,8 +77,9 @@ class MRV_Widgets {
             'bg_color'      => get_option('mrv_widget_marquee_bg_color', '#f9fafb'),
             'overlay_color' => get_option('mrv_widget_marquee_overlay_color', 'rgba(0,0,0,0.6)'),
             'text_color'    => get_option('mrv_widget_marquee_text_color', '#ffffff'),
-            'button_color'  => get_option('mrv_widget_marquee_button_color', get_option('mrv_accent_color', '#2563eb')),
-            'height'        => get_option('mrv_widget_marquee_height', '60vh'),
+            'button_color'      => get_option('mrv_widget_marquee_button_color', get_option('mrv_accent_color', '#2563eb')),
+            'button_text_color' => get_option('mrv_widget_marquee_button_text_color', '#ffffff'),
+            'height'            => get_option('mrv_widget_marquee_height', '60vh'),
             'speed'         => (int) get_option('mrv_widget_marquee_speed', 30),
             'fade_width'    => (int) get_option('mrv_widget_marquee_fade_width', 150),
             'border_radius' => (int) get_option('mrv_widget_marquee_border_radius', 12),
@@ -194,6 +195,7 @@ class MRV_Widgets {
             --mrv-overlay-color: <?php echo esc_attr($settings['overlay_color']); ?>;
             --mrv-text-color: <?php echo esc_attr($settings['text_color']); ?>;
             --mrv-button-color: <?php echo esc_attr($settings['button_color']); ?>;
+            --mrv-button-text-color: <?php echo esc_attr($settings['button_text_color']); ?>;
             --mrv-fade-width: <?php echo esc_attr($settings['fade_width']); ?>px;
             --mrv-border-radius: <?php echo esc_attr($settings['border_radius']); ?>px;
         ">

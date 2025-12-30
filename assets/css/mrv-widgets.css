@@ -149,7 +149,7 @@
     display: inline-block;
     padding: 14px 32px;
     background: var(--mrv-button-color, #2563eb);
-    color: #ffffff;
+    color: var(--mrv-button-text-color, #ffffff);
     font-size: 1rem;
     font-weight: 600;
     text-decoration: none;
@@ -160,7 +160,7 @@
 .mrv-marquee-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    color: #ffffff;
+    color: var(--mrv-button-text-color, #ffffff);
 }
 
 /* ==========================================================================

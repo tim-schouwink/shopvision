@@ -341,6 +341,12 @@ class MRV_Settings {
             'default'           => '',  // Empty = use accent color
         ]);
 
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_button_text_color', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'default'           => '#ffffff',
+        ]);
+
         register_setting('mrv_settings_widgets', 'mrv_widget_marquee_height', [
             'type'              => 'string',
             'sanitize_callback' => 'sanitize_text_field',
@@ -1946,6 +1952,7 @@ class MRV_Settings {
         $overlay_color = get_option('mrv_widget_marquee_overlay_color', 'rgba(0,0,0,0.6)');
         $text_color = get_option('mrv_widget_marquee_text_color', '#ffffff');
         $button_color = get_option('mrv_widget_marquee_button_color', '') ?: get_option('mrv_accent_color', '#2563eb');
+        $button_text_color = get_option('mrv_widget_marquee_button_text_color', '#ffffff');
         $height = get_option('mrv_widget_marquee_height', '60vh');
         $speed = get_option('mrv_widget_marquee_speed', 30);
         $fade_width = get_option('mrv_widget_marquee_fade_width', 150);
@@ -2109,6 +2116,11 @@ class MRV_Settings {
                                 <label class="mrv-field-label"><?php esc_html_e('Button Color', 'shopvision'); ?></label>
                                 <input type="text" id="mrv_widget_marquee_button_color" name="mrv_widget_marquee_button_color"
                                        value="<?php echo esc_attr($button_color); ?>" class="mrv-color-picker" data-default-color="#2563eb">
+                            </div>
+                            <div class="mrv-color-field">
+                                <label class="mrv-field-label"><?php esc_html_e('Button Text Color', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_button_text_color" name="mrv_widget_marquee_button_text_color"
+                                       value="<?php echo esc_attr($button_text_color); ?>" class="mrv-color-picker" data-default-color="#ffffff">
                             </div>
                         </div>
                     </div>
