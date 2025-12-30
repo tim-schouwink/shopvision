@@ -2154,6 +2154,12 @@
     transition: opacity 0.3s ease;
 }
 
+.mrv-widget-settings.mrv-widget-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+}
+
 .mrv-grid {
     display: grid;
     gap: 24px;

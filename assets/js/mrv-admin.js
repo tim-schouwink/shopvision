@@ -848,3 +848,27 @@
         });
     });
 })(jQuery);
+
+/**
+ * Widget Settings Toggle
+ * Enables/disables widget settings based on the enable checkbox
+ */
+(function($) {
+    'use strict';
+
+    $(function() {
+        const $enableCheckbox = $('#mrv_widget_marquee_enabled');
+        const $settingsContainer = $('#mrv-widget-settings');
+
+        if (!$enableCheckbox.length || !$settingsContainer.length) return;
+
+        // Handle toggle change
+        $enableCheckbox.on('change', function() {
+            if ($(this).is(':checked')) {
+                $settingsContainer.removeClass('mrv-widget-disabled');
+            } else {
+                $settingsContainer.addClass('mrv-widget-disabled');
+            }
+        });
+    });
+})(jQuery);

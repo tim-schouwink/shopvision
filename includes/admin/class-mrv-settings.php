@@ -1972,7 +1972,7 @@ class MRV_Settings {
                     </div>
                 </div>
 
-                <div class="mrv-widget-settings" style="<?php echo !$enabled ? 'opacity: 0.5; pointer-events: none;' : ''; ?>">
+                <div class="mrv-widget-settings<?php echo !$enabled ? ' mrv-widget-disabled' : ''; ?>" id="mrv-widget-settings">
                     <!-- Two Column Layout -->
                     <div class="mrv-grid mrv-grid-2">
                         <!-- Left Column: Text Settings -->
