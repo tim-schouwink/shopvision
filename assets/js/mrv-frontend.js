@@ -349,7 +349,26 @@
             // Open in new tab
             window.open(waUrl, '_blank');
 
+            // Track WhatsApp click
+            this.trackWhatsAppClick();
+
             this.emit('whatsappClick', { products: productNames, message });
+        }
+
+        /**
+         * Track WhatsApp button click via AJAX
+         */
+        trackWhatsAppClick() {
+            const formData = new FormData();
+            formData.append('action', 'mrv_track_whatsapp');
+            formData.append('nonce', this.config.nonce);
+
+            fetch(this.config.ajaxUrl, {
+                method: 'POST',
+                body: formData,
+            }).catch(() => {
+                // Silently fail - tracking is not critical
+            });
         }
 
         /**

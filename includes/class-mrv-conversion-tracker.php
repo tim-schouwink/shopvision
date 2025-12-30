@@ -55,6 +55,54 @@ class MRV_Conversion_Tracker {
     }
 
     /**
+     * Register a session for conversion tracking
+     * This persists even after the visualization is deleted
+     *
+     * @param string $session_id The session ID
+     * @param bool   $was_approved Whether the visualization was approved
+     * @param int    $created_at Unix timestamp of creation
+     */
+    public static function register_session(string $session_id, bool $was_approved = false, int $created_at = 0): void {
+        $sessions = get_option('mrv_tracking_sessions', []);
+
+        // Clean up expired sessions (older than cookie duration)
+        $cutoff = time() - (self::COOKIE_DAYS * DAY_IN_SECONDS);
+        $sessions = array_filter($sessions, function ($session) use ($cutoff) {
+            return ($session['created_at'] ?? 0) > $cutoff;
+        });
+
+        // Add or update session
+        $sessions[$session_id] = [
+            'was_approved' => $was_approved,
+            'created_at'   => $created_at ?: time(),
+        ];
+
+        update_option('mrv_tracking_sessions', $sessions);
+    }
+
+    /**
+     * Get session info for conversion tracking
+     *
+     * @param string $session_id The session ID
+     * @return array|null Session info or null if not found/expired
+     */
+    public static function get_session(string $session_id): ?array {
+        $sessions = get_option('mrv_tracking_sessions', []);
+
+        if (!isset($sessions[$session_id])) {
+            return null;
+        }
+
+        // Check if expired
+        $cutoff = time() - (self::COOKIE_DAYS * DAY_IN_SECONDS);
+        if (($sessions[$session_id]['created_at'] ?? 0) <= $cutoff) {
+            return null;
+        }
+
+        return $sessions[$session_id];
+    }
+
+    /**
      * Track conversion when order is placed
      *
      * @param int $order_id WooCommerce order ID
@@ -85,26 +133,92 @@ class MRV_Conversion_Tracker {
             'fields'         => 'ids',
         ]);
 
-        if (empty($generations)) {
+        // Check session log as fallback (visualization may have been deleted)
+        $session_info = self::get_session($session_id);
+
+        // Need either existing generations OR a valid session in the log
+        if (empty($generations) && !$session_info) {
             return;
         }
 
         // Update order meta
         $order->update_meta_data('_mrv_converted', 'yes');
         $order->update_meta_data('_mrv_session_id', $session_id);
-        $order->update_meta_data('_mrv_generation_ids', $generations);
+        $order->update_meta_data('_mrv_generation_ids', $generations ?: []);
         $order->update_meta_data('_mrv_conversion_date', current_time('mysql'));
+
+        // Store session info on order for analytics (even if visualization is deleted)
+        if ($session_info) {
+            $order->update_meta_data('_mrv_was_approved', $session_info['was_approved'] ? 'yes' : 'no');
+            $order->update_meta_data('_mrv_visualization_date', gmdate('Y-m-d H:i:s', $session_info['created_at']));
+        }
+
         $order->save();
 
-        // Update generation meta
+        // Update generation meta (if they still exist)
         foreach ($generations as $generation_id) {
             update_post_meta($generation_id, '_mrv_converted', 'yes');
             update_post_meta($generation_id, '_mrv_order_id', $order_id);
             update_post_meta($generation_id, '_mrv_conversion_date', current_time('mysql'));
         }
 
+        // Increment all-time conversion counter
+        self::increment_alltime_conversion((float) $order->get_total());
+
         // Clear transient cache
         $this->clear_analytics_cache();
+    }
+
+    /**
+     * Increment all-time conversion counters
+     *
+     * @param float $revenue Order total
+     */
+    public static function increment_alltime_conversion(float $revenue): void {
+        $conversions = (int) get_option('mrv_alltime_conversions', 0);
+        update_option('mrv_alltime_conversions', $conversions + 1);
+
+        $total_revenue = (float) get_option('mrv_alltime_revenue', 0);
+        update_option('mrv_alltime_revenue', $total_revenue + $revenue);
+    }
+
+    /**
+     * Get all-time conversion statistics
+     *
+     * @return array All-time stats
+     */
+    public static function get_alltime_conversion_stats(): array {
+        // Initialize from existing orders if not yet done
+        if (!get_option('mrv_alltime_conversions_initialized')) {
+            self::initialize_alltime_conversions();
+        }
+
+        return [
+            'conversions' => (int) get_option('mrv_alltime_conversions', 0),
+            'revenue'     => (float) get_option('mrv_alltime_revenue', 0),
+        ];
+    }
+
+    /**
+     * Initialize all-time conversion counters from existing orders
+     */
+    public static function initialize_alltime_conversions(): void {
+        $orders = wc_get_orders([
+            'meta_key'   => '_mrv_converted',
+            'meta_value' => 'yes',
+            'limit'      => -1,
+            'status'     => ['completed', 'processing'],
+        ]);
+
+        $conversions = count($orders);
+        $revenue = 0;
+        foreach ($orders as $order) {
+            $revenue += (float) $order->get_total();
+        }
+
+        update_option('mrv_alltime_conversions', $conversions);
+        update_option('mrv_alltime_revenue', $revenue);
+        update_option('mrv_alltime_conversions_initialized', true);
     }
 
     /**
@@ -194,7 +308,7 @@ class MRV_Conversion_Tracker {
      * @return array Stats array
      */
     private static function get_period_stats(array $date_query): array {
-        // Total visualizations
+        // Total visualizations (from existing posts)
         $viz_query = new WP_Query([
             'post_type'      => 'mrv_generation',
             'date_query'     => $date_query,
@@ -203,36 +317,38 @@ class MRV_Conversion_Tracker {
         ]);
         $visualizations = $viz_query->found_posts;
 
-        // Conversions
-        $conv_query = new WP_Query([
-            'post_type'      => 'mrv_generation',
-            'date_query'     => $date_query,
-            'meta_key'       => '_mrv_converted',
-            'meta_value'     => 'yes',
-            'posts_per_page' => -1,
-            'fields'         => 'ids',
-        ]);
-        $conversions = $conv_query->found_posts;
+        // Conversions and revenue from orders (these persist even if visualization is deleted)
+        $order_args = [
+            'meta_key'   => '_mrv_converted',
+            'meta_value' => 'yes',
+            'limit'      => -1,
+            'status'     => ['completed', 'processing'],
+        ];
 
-        // Revenue from converted orders
+        // Add date filter if applicable
+        if (!empty($date_query)) {
+            $after = $date_query[0]['after'] ?? null;
+            $before = $date_query[0]['before'] ?? null;
+
+            if ($after) {
+                $order_args['date_created'] = '>' . strtotime($after);
+            }
+            if ($before) {
+                // Combine with after if both present
+                if ($after) {
+                    $order_args['date_created'] = strtotime($after) . '...' . strtotime($before);
+                } else {
+                    $order_args['date_created'] = '<' . strtotime($before);
+                }
+            }
+        }
+
+        $orders = wc_get_orders($order_args);
+
+        $conversions = count($orders);
         $revenue = 0;
-        if ($conversions > 0) {
-            $order_ids = [];
-            foreach ($conv_query->posts as $gen_id) {
-                $order_id = get_post_meta($gen_id, '_mrv_order_id', true);
-                if ($order_id) {
-                    $order_ids[] = $order_id;
-                }
-            }
-
-            $order_ids = array_unique($order_ids);
-
-            foreach ($order_ids as $order_id) {
-                $order = wc_get_order($order_id);
-                if ($order && in_array($order->get_status(), ['completed', 'processing'])) {
-                    $revenue += (float) $order->get_total();
-                }
-            }
+        foreach ($orders as $order) {
+            $revenue += (float) $order->get_total();
         }
 
         return [

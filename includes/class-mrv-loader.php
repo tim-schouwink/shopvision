@@ -142,6 +142,10 @@ class MRV_Loader {
         // Add to cart (fallback for when WooCommerce native AJAX is unavailable)
         $this->add_action('wp_ajax_mrv_add_to_cart', $ajax, 'add_to_cart');
         $this->add_action('wp_ajax_nopriv_mrv_add_to_cart', $ajax, 'add_to_cart');
+
+        // WhatsApp click tracking
+        $this->add_action('wp_ajax_mrv_track_whatsapp', $ajax, 'track_whatsapp_click');
+        $this->add_action('wp_ajax_nopriv_mrv_track_whatsapp', $ajax, 'track_whatsapp_click');
     }
 
     /**

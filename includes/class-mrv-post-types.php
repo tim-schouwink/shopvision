@@ -238,6 +238,23 @@ class MRV_Post_Types {
             }
         }
 
+        // Increment all-time counters
+        self::increment_alltime_counter('total');
+        if ($args['consent_given']) {
+            self::increment_alltime_counter('approved');
+        } else {
+            self::increment_alltime_counter('not_approved');
+        }
+
+        // Register session for conversion tracking (persists even if visualization is deleted)
+        if (!empty($args['session_id'])) {
+            MRV_Conversion_Tracker::register_session(
+                $args['session_id'],
+                $args['consent_given'],
+                time()
+            );
+        }
+
         return $post_id;
     }
 
@@ -260,6 +277,11 @@ class MRV_Post_Types {
             return false;
         }
 
+        // Get current status before update
+        $old_status = get_post_meta($post_id, '_mrv_consent_status', true);
+        $was_approved = in_array($old_status, ['approved', 'featured'], true);
+        $will_be_approved = in_array($status, ['approved', 'featured'], true);
+
         update_post_meta($post_id, '_mrv_consent_status', $status);
         update_post_meta($post_id, '_mrv_consent_date', time());
         wp_set_object_terms($post_id, $status, self::TAXONOMY);
@@ -269,7 +291,92 @@ class MRV_Post_Types {
             delete_post_meta($post_id, '_mrv_expires_at');
         }
 
+        // Update all-time counters when approval status changes
+        if (!$was_approved && $will_be_approved) {
+            // Changed from not approved to approved
+            self::increment_alltime_counter('approved');
+            self::decrement_alltime_counter('not_approved');
+        } elseif ($was_approved && !$will_be_approved) {
+            // Changed from approved to not approved (rejected)
+            self::decrement_alltime_counter('approved');
+            self::increment_alltime_counter('not_approved');
+        }
+
         return true;
+    }
+
+    /**
+     * Increment an all-time counter
+     *
+     * @param string $counter Counter name: 'total', 'approved', 'not_approved'
+     */
+    public static function increment_alltime_counter(string $counter): void {
+        $option_name = 'mrv_alltime_' . $counter;
+        $current = (int) get_option($option_name, 0);
+        update_option($option_name, $current + 1);
+    }
+
+    /**
+     * Decrement an all-time counter (minimum 0)
+     *
+     * @param string $counter Counter name: 'total', 'approved', 'not_approved'
+     */
+    public static function decrement_alltime_counter(string $counter): void {
+        $option_name = 'mrv_alltime_' . $counter;
+        $current = (int) get_option($option_name, 0);
+        update_option($option_name, max(0, $current - 1));
+    }
+
+    /**
+     * Get all-time visualization statistics
+     *
+     * @return array All-time stats
+     */
+    public static function get_alltime_stats(): array {
+        // Initialize counters from existing data if not yet done
+        if (!get_option('mrv_alltime_initialized')) {
+            self::initialize_alltime_counters();
+        }
+
+        return [
+            'total'        => (int) get_option('mrv_alltime_total', 0),
+            'approved'     => (int) get_option('mrv_alltime_approved', 0),
+            'not_approved' => (int) get_option('mrv_alltime_not_approved', 0),
+        ];
+    }
+
+    /**
+     * Initialize all-time counters from existing visualizations
+     * This runs once to set baseline counts from current data
+     */
+    public static function initialize_alltime_counters(): void {
+        // Count all existing visualizations
+        $total = (int) wp_count_posts(self::POST_TYPE)->publish;
+
+        // Count by approval status
+        $approved_count = 0;
+        $not_approved_count = 0;
+
+        $terms = get_terms([
+            'taxonomy'   => self::TAXONOMY,
+            'hide_empty' => false,
+        ]);
+
+        if (!is_wp_error($terms)) {
+            foreach ($terms as $term) {
+                if (in_array($term->slug, ['approved', 'featured'], true)) {
+                    $approved_count += (int) $term->count;
+                } elseif (in_array($term->slug, ['pending', 'rejected'], true)) {
+                    $not_approved_count += (int) $term->count;
+                }
+            }
+        }
+
+        // Set the counters
+        update_option('mrv_alltime_total', $total);
+        update_option('mrv_alltime_approved', $approved_count);
+        update_option('mrv_alltime_not_approved', $not_approved_count);
+        update_option('mrv_alltime_initialized', true);
     }
 
     /**

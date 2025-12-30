@@ -317,6 +317,28 @@ class MRV_Ajax_Handler {
     }
 
     /**
+     * Track WhatsApp button click
+     */
+    public function track_whatsapp_click(): void {
+        // Verify nonce
+        if (!check_ajax_referer('mrv_nonce', 'nonce', false)) {
+            wp_send_json_error(['message' => __('Security check failed.', 'shopvision')], 403);
+        }
+
+        // Increment WhatsApp click counter
+        $clicks = (int) get_option('mrv_alltime_whatsapp_clicks', 0);
+        update_option('mrv_alltime_whatsapp_clicks', $clicks + 1);
+
+        // Clear analytics cache
+        delete_transient('mrv_analytics_7days');
+        delete_transient('mrv_analytics_30days');
+        delete_transient('mrv_analytics_90days');
+        delete_transient('mrv_analytics_all');
+
+        wp_send_json_success(['tracked' => true]);
+    }
+
+    /**
      * Check if a product has visualizer enabled (all products, directly, or via tag)
      */
     private function is_product_enabled(int $product_id): bool {
