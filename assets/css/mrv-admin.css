@@ -1965,8 +1965,23 @@
 }
 
 /* All-time Section */
+.mrv-alltime-section {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.mrv-alltime-section .mrv-analytics-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+}
+
+.mrv-alltime-section .mrv-analytics-value {
+    font-size: 24px;
+}
+
 .mrv-alltime-section-title {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: #6b7280;
     text-transform: uppercase;

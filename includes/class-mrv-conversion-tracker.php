@@ -239,6 +239,15 @@ class MRV_Conversion_Tracker {
      */
     public static function get_analytics(string $period = '30days'): array {
         $cache_key = 'mrv_analytics_' . $period;
+
+        // Check plugin version - clear cache on update
+        $cache_version = get_option('mrv_analytics_cache_version', '');
+        $current_version = defined('MRV_VERSION') ? MRV_VERSION : '3.4.2';
+        if ($cache_version !== $current_version) {
+            self::clear_all_analytics_cache();
+            update_option('mrv_analytics_cache_version', $current_version);
+        }
+
         $data = get_transient($cache_key);
 
         if (false !== $data) {
@@ -249,6 +258,16 @@ class MRV_Conversion_Tracker {
         set_transient($cache_key, $data, HOUR_IN_SECONDS);
 
         return $data;
+    }
+
+    /**
+     * Clear all analytics transient caches
+     */
+    public static function clear_all_analytics_cache(): void {
+        delete_transient('mrv_analytics_7days');
+        delete_transient('mrv_analytics_30days');
+        delete_transient('mrv_analytics_90days');
+        delete_transient('mrv_analytics_all');
     }
 
     /**
@@ -325,24 +344,24 @@ class MRV_Conversion_Tracker {
             'status'     => ['completed', 'processing'],
         ];
 
-        // Add date filter if applicable - WooCommerce expects date strings, not timestamps
+        // Add date filter if applicable - use Unix timestamps for reliability
         if (!empty($date_query)) {
             $after = $date_query[0]['after'] ?? null;
             $before = $date_query[0]['before'] ?? null;
 
             if ($after && $before) {
-                // Date range: convert relative dates to absolute dates
-                $after_date = gmdate('Y-m-d', strtotime($after));
-                $before_date = gmdate('Y-m-d', strtotime($before));
-                $order_args['date_created'] = $after_date . '...' . $before_date;
+                // Date range: use timestamps
+                $after_ts = strtotime($after);
+                $before_ts = strtotime($before);
+                $order_args['date_created'] = $after_ts . '...' . $before_ts;
             } elseif ($after) {
-                // After only: use >= format
-                $after_date = gmdate('Y-m-d', strtotime($after));
-                $order_args['date_created'] = '>=' . $after_date;
+                // After only: use timestamp with >= format
+                $after_ts = strtotime($after);
+                $order_args['date_created'] = '>=' . $after_ts;
             } elseif ($before) {
-                // Before only: use < format
-                $before_date = gmdate('Y-m-d', strtotime($before));
-                $order_args['date_created'] = '<' . $before_date;
+                // Before only: use timestamp with < format
+                $before_ts = strtotime($before);
+                $order_args['date_created'] = '<' . $before_ts;
             }
         }
 
