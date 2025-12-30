@@ -359,6 +359,12 @@ class MRV_Settings {
             'default'           => 150,
         ]);
 
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_border_radius', [
+            'type'              => 'integer',
+            'sanitize_callback' => 'absint',
+            'default'           => 12,
+        ]);
+
         register_setting('mrv_settings_widgets', 'mrv_widget_marquee_status', [
             'type'              => 'string',
             'sanitize_callback' => 'sanitize_text_field',
@@ -1943,6 +1949,7 @@ class MRV_Settings {
         $height = get_option('mrv_widget_marquee_height', '60vh');
         $speed = get_option('mrv_widget_marquee_speed', 30);
         $fade_width = get_option('mrv_widget_marquee_fade_width', 150);
+        $border_radius = get_option('mrv_widget_marquee_border_radius', 12);
         $status = get_option('mrv_widget_marquee_status', 'featured');
         $limit = get_option('mrv_widget_marquee_limit', 12);
         $link_product = get_option('mrv_widget_marquee_link_product', true);
@@ -2083,6 +2090,16 @@ class MRV_Settings {
                                         <span class="mrv-input-suffix">px</span>
                                     </div>
                                     <p class="mrv-field-description"><?php esc_html_e('Gradient fade on left/right edges. 0 = no fade.', 'shopvision'); ?></p>
+                                </div>
+
+                                <div class="mrv-field">
+                                    <label class="mrv-field-label" for="mrv_widget_marquee_border_radius"><?php esc_html_e('Border Radius', 'shopvision'); ?></label>
+                                    <div class="mrv-input-with-suffix">
+                                        <input type="number" id="mrv_widget_marquee_border_radius" name="mrv_widget_marquee_border_radius"
+                                               value="<?php echo esc_attr($border_radius); ?>" min="0" max="50" step="1" style="width: 80px;" />
+                                        <span class="mrv-input-suffix">px</span>
+                                    </div>
+                                    <p class="mrv-field-description"><?php esc_html_e('Rounded corners on images. 0 = square.', 'shopvision'); ?></p>
                                 </div>
                             </div>
                         </div>
