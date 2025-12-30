@@ -2260,7 +2260,21 @@
     height: 0;
 }
 
-.mrv-toggle-slider--small {
+/* Featured Toggle - Standalone styles (not dependent on base toggle) */
+.mrv-featured-toggle {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.mrv-featured-toggle input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.mrv-featured-toggle .mrv-toggle-slider--small {
     position: relative;
     display: inline-block;
     width: 36px;
@@ -2268,9 +2282,19 @@
     background: #d1d5db;
     border-radius: 20px;
     transition: background 0.2s ease;
+    cursor: pointer;
+    /* Reset base toggle styles */
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
 }
 
-.mrv-toggle-slider--small::after {
+.mrv-featured-toggle .mrv-toggle-slider--small::before {
+    display: none; /* Hide base toggle knob */
+}
+
+.mrv-featured-toggle .mrv-toggle-slider--small::after {
     content: '';
     position: absolute;
     top: 2px;
