@@ -815,3 +815,36 @@
         });
     });
 })(jQuery);
+
+/**
+ * Generic Color Picker Initializer
+ * Initializes all .mrv-color-picker inputs that aren't already initialized
+ */
+(function($) {
+    'use strict';
+
+    $(function() {
+        // Initialize all color pickers with mrv-color-picker class
+        // that haven't been initialized yet (no wp-picker-container parent)
+        $('.mrv-color-picker').each(function() {
+            const $input = $(this);
+
+            // Skip if already initialized
+            if ($input.closest('.wp-picker-container').length) {
+                return;
+            }
+
+            // Initialize with default options
+            $input.wpColorPicker({
+                defaultColor: $input.data('default-color') || false,
+                change: function(event, ui) {
+                    // Trigger change event for any listeners
+                    $(this).trigger('colorchange', [ui.color.toString()]);
+                },
+                clear: function() {
+                    $(this).trigger('colorchange', ['']);
+                }
+            });
+        });
+    });
+})(jQuery);
