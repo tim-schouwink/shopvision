@@ -1964,16 +1964,48 @@
     color: #b91c1c;
 }
 
+/* All-time Wrapper */
+.mrv-alltime-wrapper {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.mrv-alltime-header {
+    margin-bottom: 20px;
+}
+
+.mrv-alltime-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d2327;
+    margin: 0 0 6px 0;
+}
+
+.mrv-alltime-description {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+
 /* All-time Section */
 .mrv-alltime-section {
-    background: #f9fafb;
+    background: #fff;
     border-radius: 8px;
     padding: 16px;
+    border: 1px solid #e5e7eb;
+    margin-top: 16px;
+}
+
+.mrv-alltime-header + .mrv-alltime-section {
+    margin-top: 0;
 }
 
 .mrv-alltime-section .mrv-analytics-card {
-    background: #fff;
-    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    border: none;
+    box-shadow: none;
 }
 
 .mrv-alltime-section .mrv-analytics-value {

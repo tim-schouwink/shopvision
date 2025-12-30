@@ -1678,11 +1678,13 @@ class MRV_Settings {
         </div>
 
         <!-- All-time Stats -->
-        <div class="mrv-card" style="margin-bottom: 24px;">
-            <h2 class="mrv-card-title"><?php esc_html_e('All-time Statistics', 'shopvision'); ?></h2>
-            <p class="mrv-card-description" style="color: #6b7280; margin: 0 0 16px 0; font-size: 13px;">
-                <?php esc_html_e('Lifetime totals including visualizations that have been automatically deleted.', 'shopvision'); ?>
-            </p>
+        <div class="mrv-alltime-wrapper">
+            <div class="mrv-alltime-header">
+                <h2 class="mrv-alltime-title"><?php esc_html_e('All-time Statistics', 'shopvision'); ?></h2>
+                <p class="mrv-alltime-description">
+                    <?php esc_html_e('Lifetime totals including visualizations that have been automatically deleted.', 'shopvision'); ?>
+                </p>
+            </div>
 
             <!-- Visualization Stats -->
             <div class="mrv-alltime-section">
@@ -1704,7 +1706,7 @@ class MRV_Settings {
             </div>
 
             <!-- Conversion Stats -->
-            <div class="mrv-alltime-section" style="margin-top: 20px;">
+            <div class="mrv-alltime-section">
                 <h4 class="mrv-alltime-section-title"><?php esc_html_e('Conversions & Engagement', 'shopvision'); ?></h4>
                 <div class="mrv-analytics-stats" style="margin: 0;">
                     <div class="mrv-analytics-card">
