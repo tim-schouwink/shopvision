@@ -1,0 +1,284 @@
+/**
+ * Shopvision Widget Styles
+ * Marquee Gallery and future widget layouts
+ */
+
+/* ==========================================================================
+   Marquee Gallery
+   ========================================================================== */
+
+.mrv-marquee-gallery {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--mrv-gallery-bg, #f9fafb);
+}
+
+/* Track container */
+.mrv-marquee-track {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    height: 100%;
+    padding: 20px 0;
+}
+
+/* Marquee row */
+.mrv-marquee-row {
+    display: flex;
+    gap: 16px;
+    animation: mrv-scroll-left var(--mrv-speed, 30s) linear infinite;
+    will-change: transform;
+}
+
+.mrv-marquee-row--reverse {
+    animation-name: mrv-scroll-right;
+}
+
+/* Seamless loop animations - scroll 33.33% (one set of images) */
+@keyframes mrv-scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-33.33%);
+    }
+}
+
+@keyframes mrv-scroll-right {
+    0% {
+        transform: translateX(-33.33%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Pause on hover */
+.mrv-marquee-gallery:hover .mrv-marquee-row {
+    animation-play-state: paused;
+}
+
+/* Image styling */
+.mrv-marquee-img {
+    flex-shrink: 0;
+    width: 280px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mrv-marquee-link {
+    flex-shrink: 0;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.mrv-marquee-link:hover {
+    transform: scale(1.05);
+}
+
+.mrv-marquee-link:hover .mrv-marquee-img {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Standalone image hover (no link) */
+.mrv-marquee-row > .mrv-marquee-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   Overlay
+   ========================================================================== */
+
+.mrv-marquee-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.mrv-marquee-content {
+    background: var(--mrv-overlay-color, rgba(0, 0, 0, 0.6));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 40px 56px;
+    text-align: center;
+    color: var(--mrv-text-color, #ffffff);
+    pointer-events: auto;
+    max-width: 90%;
+}
+
+.mrv-marquee-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+    color: inherit;
+}
+
+.mrv-marquee-subtitle {
+    font-size: 1.125rem;
+    margin: 0 0 24px 0;
+    opacity: 0.9;
+    color: inherit;
+}
+
+.mrv-marquee-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--mrv-button-color, #2563eb);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mrv-marquee-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   Fade Masks
+   ========================================================================== */
+
+.mrv-marquee-gallery::before,
+.mrv-marquee-gallery::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.mrv-marquee-gallery::before {
+    left: 0;
+    background: linear-gradient(to right, var(--mrv-gallery-bg, #f9fafb), transparent);
+}
+
+.mrv-marquee-gallery::after {
+    right: 0;
+    background: linear-gradient(to left, var(--mrv-gallery-bg, #f9fafb), transparent);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    .mrv-marquee-img {
+        width: 220px;
+        height: 280px;
+    }
+
+    .mrv-marquee-content {
+        padding: 32px 40px;
+    }
+
+    .mrv-marquee-title {
+        font-size: 2rem;
+    }
+
+    .mrv-marquee-gallery::before,
+    .mrv-marquee-gallery::after {
+        width: 100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mrv-marquee-track {
+        gap: 12px;
+    }
+
+    .mrv-marquee-row {
+        gap: 12px;
+    }
+
+    .mrv-marquee-img {
+        width: 180px;
+        height: 230px;
+        border-radius: 8px;
+    }
+
+    .mrv-marquee-content {
+        padding: 24px 32px;
+        border-radius: 12px;
+    }
+
+    .mrv-marquee-title {
+        font-size: 1.5rem;
+    }
+
+    .mrv-marquee-subtitle {
+        font-size: 1rem;
+        margin-bottom: 16px;
+    }
+
+    .mrv-marquee-btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+
+    .mrv-marquee-gallery::before,
+    .mrv-marquee-gallery::after {
+        width: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mrv-marquee-img {
+        width: 140px;
+        height: 180px;
+    }
+
+    .mrv-marquee-content {
+        padding: 20px 24px;
+    }
+
+    .mrv-marquee-title {
+        font-size: 1.25rem;
+    }
+
+    .mrv-marquee-gallery::before,
+    .mrv-marquee-gallery::after {
+        width: 40px;
+    }
+}
+
+/* ==========================================================================
+   Admin Preview (scaled version)
+   ========================================================================== */
+
+.mrv-widget-preview {
+    transform: scale(0.5);
+    transform-origin: top left;
+    width: 200%;
+    pointer-events: none;
+}
+
+.mrv-widget-preview-container {
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+/* Reduce animation speed in preview */
+.mrv-widget-preview .mrv-marquee-row {
+    animation-duration: 15s;
+}

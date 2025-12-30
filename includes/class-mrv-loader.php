@@ -123,6 +123,9 @@ class MRV_Loader {
 
         // Dynamic CSS variables output
         $this->add_action('wp_head', $frontend, 'output_dynamic_styles', 100);
+
+        // Widget shortcodes (available on all pages)
+        new MRV_Widgets();
     }
 
     /**

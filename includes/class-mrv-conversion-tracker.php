@@ -242,7 +242,7 @@ class MRV_Conversion_Tracker {
 
         // Check plugin version - clear cache on update
         $cache_version = get_option('mrv_analytics_cache_version', '');
-        $current_version = defined('MRV_VERSION') ? MRV_VERSION : '3.4.2';
+        $current_version = defined('MRV_VERSION') ? MRV_VERSION : '3.5.0';
         if ($cache_version !== $current_version) {
             self::clear_all_analytics_cache();
             update_option('mrv_analytics_cache_version', $current_version);

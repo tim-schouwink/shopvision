@@ -283,6 +283,93 @@ class MRV_Settings {
             'type'              => 'array',
             'sanitize_callback' => [$this, 'sanitize_tags'],
         ]);
+
+        // ========================================
+        // Group: mrv_settings_widgets (Widgets tab)
+        // ========================================
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_enabled', [
+            'type'              => 'boolean',
+            'sanitize_callback' => 'rest_sanitize_boolean',
+            'default'           => false,
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_title', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default'           => 'Bekijk onze resultaten',
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_subtitle', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default'           => '',
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_button_text', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default'           => 'Shop nu',
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_button_url', [
+            'type'              => 'string',
+            'sanitize_callback' => 'esc_url_raw',
+            'default'           => '/shop',
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_bg_color', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'default'           => '#f9fafb',
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_overlay_color', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default'           => 'rgba(0,0,0,0.6)',
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_text_color', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'default'           => '#ffffff',
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_button_color', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_hex_color',
+            'default'           => '',  // Empty = use accent color
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_height', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default'           => '60vh',
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_speed', [
+            'type'              => 'integer',
+            'sanitize_callback' => 'absint',
+            'default'           => 30,
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_status', [
+            'type'              => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'default'           => 'featured',
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_limit', [
+            'type'              => 'integer',
+            'sanitize_callback' => 'absint',
+            'default'           => 12,
+        ]);
+
+        register_setting('mrv_settings_widgets', 'mrv_widget_marquee_link_product', [
+            'type'              => 'boolean',
+            'sanitize_callback' => 'rest_sanitize_boolean',
+            'default'           => true,
+        ]);
     }
 
     /**
@@ -417,6 +504,10 @@ class MRV_Settings {
                 'label' => __('Analytics', 'shopvision'),
                 'icon'  => '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
             ],
+            'widgets' => [
+                'label' => __('Widgets', 'shopvision'),
+                'icon'  => '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
+            ],
         ];
         ?>
         <div class="mrv-wrap">
@@ -474,6 +565,9 @@ class MRV_Settings {
                         break;
                     case 'analytics':
                         $this->render_analytics_tab();
+                        break;
+                    case 'widgets':
+                        $this->render_widgets_tab();
                         break;
                     default:
                         $this->render_algemeen_tab();
@@ -1824,6 +1918,296 @@ class MRV_Settings {
         echo '<div class="mrv-analytics-change ' . esc_attr($class) . '">';
         echo esc_html($arrow . ' ' . $value . '%');
         echo '</div>';
+    }
+
+    /**
+     * Render Widgets tab
+     */
+    private function render_widgets_tab(): void {
+        // Get current settings
+        $enabled = get_option('mrv_widget_marquee_enabled', false);
+        $title = get_option('mrv_widget_marquee_title', 'Bekijk onze resultaten');
+        $subtitle = get_option('mrv_widget_marquee_subtitle', '');
+        $button_text = get_option('mrv_widget_marquee_button_text', 'Shop nu');
+        $button_url = get_option('mrv_widget_marquee_button_url', '/shop');
+        $bg_color = get_option('mrv_widget_marquee_bg_color', '#f9fafb');
+        $overlay_color = get_option('mrv_widget_marquee_overlay_color', 'rgba(0,0,0,0.6)');
+        $text_color = get_option('mrv_widget_marquee_text_color', '#ffffff');
+        $button_color = get_option('mrv_widget_marquee_button_color', '') ?: get_option('mrv_accent_color', '#2563eb');
+        $height = get_option('mrv_widget_marquee_height', '60vh');
+        $speed = get_option('mrv_widget_marquee_speed', 30);
+        $status = get_option('mrv_widget_marquee_status', 'featured');
+        $limit = get_option('mrv_widget_marquee_limit', 12);
+        $link_product = get_option('mrv_widget_marquee_link_product', true);
+
+        // Get preview images
+        $preview_images = MRV_Widgets::get_preview_images($status, $limit);
+        $image_count = count($preview_images);
+        ?>
+        <form method="post" action="options.php">
+            <?php settings_fields('mrv_settings_widgets'); ?>
+
+            <!-- Page Header -->
+            <div class="mrv-page-header">
+                <h1 class="mrv-page-title"><?php esc_html_e('Widgets', 'shopvision'); ?></h1>
+                <p class="mrv-page-description"><?php esc_html_e('Display approved visualizations on your website using shortcodes.', 'shopvision'); ?></p>
+            </div>
+
+            <!-- Marquee Gallery Widget -->
+            <div class="mrv-card">
+                <div class="mrv-card-header">
+                    <h2 class="mrv-card-title"><?php esc_html_e('Marquee Gallery', 'shopvision'); ?></h2>
+                    <p class="mrv-card-description"><?php esc_html_e('A dynamic gallery with two scrolling rows of visualizations and a text overlay.', 'shopvision'); ?></p>
+                </div>
+
+                <!-- Enable Toggle -->
+                <div class="mrv-form-row">
+                    <label class="mrv-toggle">
+                        <input type="checkbox" name="mrv_widget_marquee_enabled" value="1" <?php checked($enabled); ?> />
+                        <span class="mrv-toggle-slider"></span>
+                        <span class="mrv-toggle-label"><?php esc_html_e('Enable Widget', 'shopvision'); ?></span>
+                    </label>
+                </div>
+
+                <div class="mrv-widget-settings" style="<?php echo !$enabled ? 'opacity: 0.5; pointer-events: none;' : ''; ?>">
+                    <!-- Two Column Layout -->
+                    <div class="mrv-grid mrv-grid-2">
+                        <!-- Left Column: Text Settings -->
+                        <div class="mrv-widget-section">
+                            <h3 class="mrv-section-title"><?php esc_html_e('Text', 'shopvision'); ?></h3>
+
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_title"><?php esc_html_e('Title', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_title" name="mrv_widget_marquee_title"
+                                       value="<?php echo esc_attr($title); ?>" class="regular-text" />
+                            </div>
+
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_subtitle"><?php esc_html_e('Subtitle', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_subtitle" name="mrv_widget_marquee_subtitle"
+                                       value="<?php echo esc_attr($subtitle); ?>" class="regular-text" />
+                                <p class="mrv-field-hint"><?php esc_html_e('Optional text below the title.', 'shopvision'); ?></p>
+                            </div>
+
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_button_text"><?php esc_html_e('Button Text', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_button_text" name="mrv_widget_marquee_button_text"
+                                       value="<?php echo esc_attr($button_text); ?>" class="regular-text" />
+                            </div>
+
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_button_url"><?php esc_html_e('Button URL', 'shopvision'); ?></label>
+                                <input type="text" id="mrv_widget_marquee_button_url" name="mrv_widget_marquee_button_url"
+                                       value="<?php echo esc_attr($button_url); ?>" class="regular-text" />
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Styling -->
+                        <div class="mrv-widget-section">
+                            <h3 class="mrv-section-title"><?php esc_html_e('Styling', 'shopvision'); ?></h3>
+
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_bg_color"><?php esc_html_e('Background Color', 'shopvision'); ?></label>
+                                <input type="color" id="mrv_widget_marquee_bg_color" name="mrv_widget_marquee_bg_color"
+                                       value="<?php echo esc_attr($bg_color); ?>" />
+                                <p class="mrv-field-hint"><?php esc_html_e('Also used for fade effect on edges.', 'shopvision'); ?></p>
+                            </div>
+
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_text_color"><?php esc_html_e('Text Color', 'shopvision'); ?></label>
+                                <input type="color" id="mrv_widget_marquee_text_color" name="mrv_widget_marquee_text_color"
+                                       value="<?php echo esc_attr($text_color); ?>" />
+                            </div>
+
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_button_color"><?php esc_html_e('Button Color', 'shopvision'); ?></label>
+                                <input type="color" id="mrv_widget_marquee_button_color" name="mrv_widget_marquee_button_color"
+                                       value="<?php echo esc_attr($button_color); ?>" />
+                            </div>
+
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_height"><?php esc_html_e('Height', 'shopvision'); ?></label>
+                                <select id="mrv_widget_marquee_height" name="mrv_widget_marquee_height">
+                                    <option value="40vh" <?php selected($height, '40vh'); ?>>40vh (<?php esc_html_e('Small', 'shopvision'); ?>)</option>
+                                    <option value="50vh" <?php selected($height, '50vh'); ?>>50vh (<?php esc_html_e('Medium', 'shopvision'); ?>)</option>
+                                    <option value="60vh" <?php selected($height, '60vh'); ?>>60vh (<?php esc_html_e('Large', 'shopvision'); ?>)</option>
+                                    <option value="80vh" <?php selected($height, '80vh'); ?>>80vh (<?php esc_html_e('Extra Large', 'shopvision'); ?>)</option>
+                                    <option value="100vh" <?php selected($height, '100vh'); ?>>100vh (<?php esc_html_e('Full Screen', 'shopvision'); ?>)</option>
+                                </select>
+                            </div>
+
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_speed"><?php esc_html_e('Animation Speed', 'shopvision'); ?></label>
+                                <div class="mrv-input-with-suffix">
+                                    <input type="number" id="mrv_widget_marquee_speed" name="mrv_widget_marquee_speed"
+                                           value="<?php echo esc_attr($speed); ?>" min="10" max="120" step="5" />
+                                    <span class="mrv-input-suffix"><?php esc_html_e('seconds', 'shopvision'); ?></span>
+                                </div>
+                                <p class="mrv-field-hint"><?php esc_html_e('Higher = slower. Recommended: 20-40.', 'shopvision'); ?></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Images Section -->
+                    <div class="mrv-widget-section" style="margin-top: 24px;">
+                        <h3 class="mrv-section-title"><?php esc_html_e('Images', 'shopvision'); ?></h3>
+
+                        <div class="mrv-grid mrv-grid-2">
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_status"><?php esc_html_e('Show Visualizations', 'shopvision'); ?></label>
+                                <select id="mrv_widget_marquee_status" name="mrv_widget_marquee_status">
+                                    <option value="featured" <?php selected($status, 'featured'); ?>><?php esc_html_e('Featured only', 'shopvision'); ?></option>
+                                    <option value="approved,featured" <?php selected($status, 'approved,featured'); ?>><?php esc_html_e('Approved + Featured', 'shopvision'); ?></option>
+                                </select>
+                            </div>
+
+                            <div class="mrv-form-row">
+                                <label for="mrv_widget_marquee_limit"><?php esc_html_e('Maximum Images', 'shopvision'); ?></label>
+                                <input type="number" id="mrv_widget_marquee_limit" name="mrv_widget_marquee_limit"
+                                       value="<?php echo esc_attr($limit); ?>" min="6" max="30" step="1" />
+                                <p class="mrv-field-hint"><?php esc_html_e('Minimum 6 required for widget to display.', 'shopvision'); ?></p>
+                            </div>
+                        </div>
+
+                        <div class="mrv-form-row">
+                            <label class="mrv-toggle">
+                                <input type="checkbox" name="mrv_widget_marquee_link_product" value="1" <?php checked($link_product); ?> />
+                                <span class="mrv-toggle-slider"></span>
+                                <span class="mrv-toggle-label"><?php esc_html_e('Link images to product pages', 'shopvision'); ?></span>
+                            </label>
+                        </div>
+
+                        <!-- Image count status -->
+                        <?php if ($image_count < 6): ?>
+                            <div class="mrv-notice mrv-notice-warning" style="margin-top: 16px;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                                </svg>
+                                <?php
+                                printf(
+                                    esc_html__('Only %d visualizations available. Need at least 6 for the widget to display.', 'shopvision'),
+                                    $image_count
+                                );
+                                ?>
+                            </div>
+                        <?php else: ?>
+                            <div class="mrv-notice mrv-notice-success" style="margin-top: 16px;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                                <?php
+                                printf(
+                                    esc_html__('%d visualizations available for the gallery.', 'shopvision'),
+                                    $image_count
+                                );
+                                ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- Shortcode Section -->
+                    <div class="mrv-widget-section" style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e5e7eb;">
+                        <h3 class="mrv-section-title"><?php esc_html_e('Shortcode', 'shopvision'); ?></h3>
+                        <p class="mrv-field-hint" style="margin-bottom: 12px;">
+                            <?php esc_html_e('Copy this shortcode and paste it anywhere on your site (pages, posts, theme templates).', 'shopvision'); ?>
+                        </p>
+                        <div class="mrv-shortcode-box">
+                            <code id="mrv-widget-shortcode">[shopvision_gallery]</code>
+                            <button type="button" class="mrv-copy-btn" onclick="navigator.clipboard.writeText('[shopvision_gallery]').then(() => { this.textContent = '<?php esc_attr_e('Copied!', 'shopvision'); ?>'; setTimeout(() => { this.textContent = '<?php esc_attr_e('Copy', 'shopvision'); ?>'; }, 2000); });">
+                                <?php esc_html_e('Copy', 'shopvision'); ?>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Preview Section -->
+                    <?php if ($image_count >= 6): ?>
+                    <div class="mrv-widget-section" style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e5e7eb;">
+                        <h3 class="mrv-section-title"><?php esc_html_e('Preview', 'shopvision'); ?></h3>
+                        <p class="mrv-field-hint" style="margin-bottom: 12px;">
+                            <?php esc_html_e('This is a scaled preview. Save changes to see updates.', 'shopvision'); ?>
+                        </p>
+                        <div class="mrv-widget-preview-container" style="height: 300px; overflow: hidden;">
+                            <div class="mrv-widget-preview">
+                                <?php
+                                // Render actual widget preview
+                                $widget = new MRV_Widgets();
+                                echo $widget->render_marquee_gallery();
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="mrv-form-actions">
+                <?php submit_button(__('Save Changes', 'shopvision'), 'primary', 'submit', false); ?>
+            </div>
+        </form>
+
+        <style>
+            .mrv-widget-settings { transition: opacity 0.3s ease; }
+            .mrv-grid { display: grid; gap: 24px; }
+            .mrv-grid-2 { grid-template-columns: repeat(2, 1fr); }
+            @media (max-width: 1024px) { .mrv-grid-2 { grid-template-columns: 1fr; } }
+            .mrv-widget-section h3.mrv-section-title {
+                font-size: 14px;
+                font-weight: 600;
+                color: #374151;
+                margin: 0 0 16px 0;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .mrv-shortcode-box {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                background: #f3f4f6;
+                padding: 12px 16px;
+                border-radius: 8px;
+            }
+            .mrv-shortcode-box code {
+                flex: 1;
+                font-size: 14px;
+                background: none;
+                padding: 0;
+            }
+            .mrv-copy-btn {
+                padding: 8px 16px;
+                background: #2563eb;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+            .mrv-copy-btn:hover { background: #1d4ed8; }
+            .mrv-input-with-suffix {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .mrv-input-suffix {
+                color: #6b7280;
+                font-size: 13px;
+            }
+            .mrv-widget-preview-container {
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                overflow: hidden;
+                background: #f9fafb;
+            }
+            .mrv-widget-preview {
+                transform: scale(0.5);
+                transform-origin: top left;
+                width: 200%;
+                pointer-events: none;
+            }
+        </style>
+        <?php
     }
 
 }
