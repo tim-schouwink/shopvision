@@ -3,7 +3,7 @@
  * Plugin Name: Shopvision
  * Plugin URI: https://shopvision.ai
  * Description: AI-powered product visualization for WooCommerce.
- * Version: 3.5.2
+ * Version: 3.5.3
  * Author: Tim Schouwink
  * Author URI: https://timschouwink.com
  * License: GPL-2.0+
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants
-define('MRV_VERSION', '3.5.2');
+define('MRV_VERSION', '3.5.3');
 define('MRV_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('MRV_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('MRV_PLUGIN_BASENAME', plugin_basename(__FILE__));
