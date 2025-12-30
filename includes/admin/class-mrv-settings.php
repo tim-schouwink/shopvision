@@ -1961,12 +1961,15 @@ class MRV_Settings {
                 </div>
 
                 <!-- Enable Toggle -->
-                <div class="mrv-form-row">
-                    <label class="mrv-toggle">
-                        <input type="checkbox" name="mrv_widget_marquee_enabled" value="1" <?php checked($enabled); ?> />
-                        <span class="mrv-toggle-slider"></span>
-                        <span class="mrv-toggle-label"><?php esc_html_e('Enable Widget', 'shopvision'); ?></span>
-                    </label>
+                <div class="mrv-field">
+                    <div class="mrv-icon-toggle-row">
+                        <label class="mrv-toggle">
+                            <input type="hidden" name="mrv_widget_marquee_enabled" value="0">
+                            <input type="checkbox" id="mrv_widget_marquee_enabled" name="mrv_widget_marquee_enabled" value="1" <?php checked($enabled); ?>>
+                            <span class="mrv-toggle-slider"></span>
+                        </label>
+                        <span class="mrv-toggle-text"><?php esc_html_e('Enable Widget', 'shopvision'); ?></span>
+                    </div>
                 </div>
 
                 <div class="mrv-widget-settings" style="<?php echo !$enabled ? 'opacity: 0.5; pointer-events: none;' : ''; ?>">
@@ -2006,23 +2009,35 @@ class MRV_Settings {
                         <div class="mrv-widget-section">
                             <h3 class="mrv-section-title"><?php esc_html_e('Styling', 'shopvision'); ?></h3>
 
-                            <div class="mrv-form-row">
-                                <label for="mrv_widget_marquee_bg_color"><?php esc_html_e('Background Color', 'shopvision'); ?></label>
-                                <input type="color" id="mrv_widget_marquee_bg_color" name="mrv_widget_marquee_bg_color"
-                                       value="<?php echo esc_attr($bg_color); ?>" />
-                                <p class="mrv-field-hint"><?php esc_html_e('Also used for fade effect on edges.', 'shopvision'); ?></p>
+                            <div class="mrv-color-field">
+                                <label class="mrv-field-label"><?php esc_html_e('Background', 'shopvision'); ?></label>
+                                <input type="text"
+                                       id="mrv_widget_marquee_bg_color"
+                                       name="mrv_widget_marquee_bg_color"
+                                       value="<?php echo esc_attr($bg_color); ?>"
+                                       class="mrv-color-picker"
+                                       data-default-color="#f9fafb">
+                                <p class="mrv-field-description"><?php esc_html_e('Also used for fade effect on edges.', 'shopvision'); ?></p>
                             </div>
 
-                            <div class="mrv-form-row">
-                                <label for="mrv_widget_marquee_text_color"><?php esc_html_e('Text Color', 'shopvision'); ?></label>
-                                <input type="color" id="mrv_widget_marquee_text_color" name="mrv_widget_marquee_text_color"
-                                       value="<?php echo esc_attr($text_color); ?>" />
+                            <div class="mrv-color-field">
+                                <label class="mrv-field-label"><?php esc_html_e('Text Color', 'shopvision'); ?></label>
+                                <input type="text"
+                                       id="mrv_widget_marquee_text_color"
+                                       name="mrv_widget_marquee_text_color"
+                                       value="<?php echo esc_attr($text_color); ?>"
+                                       class="mrv-color-picker"
+                                       data-default-color="#ffffff">
                             </div>
 
-                            <div class="mrv-form-row">
-                                <label for="mrv_widget_marquee_button_color"><?php esc_html_e('Button Color', 'shopvision'); ?></label>
-                                <input type="color" id="mrv_widget_marquee_button_color" name="mrv_widget_marquee_button_color"
-                                       value="<?php echo esc_attr($button_color); ?>" />
+                            <div class="mrv-color-field">
+                                <label class="mrv-field-label"><?php esc_html_e('Button Color', 'shopvision'); ?></label>
+                                <input type="text"
+                                       id="mrv_widget_marquee_button_color"
+                                       name="mrv_widget_marquee_button_color"
+                                       value="<?php echo esc_attr($button_color); ?>"
+                                       class="mrv-color-picker"
+                                       data-default-color="#2563eb">
                             </div>
 
                             <div class="mrv-form-row">
@@ -2069,12 +2084,15 @@ class MRV_Settings {
                             </div>
                         </div>
 
-                        <div class="mrv-form-row">
-                            <label class="mrv-toggle">
-                                <input type="checkbox" name="mrv_widget_marquee_link_product" value="1" <?php checked($link_product); ?> />
-                                <span class="mrv-toggle-slider"></span>
-                                <span class="mrv-toggle-label"><?php esc_html_e('Link images to product pages', 'shopvision'); ?></span>
-                            </label>
+                        <div class="mrv-field">
+                            <div class="mrv-icon-toggle-row">
+                                <label class="mrv-toggle">
+                                    <input type="hidden" name="mrv_widget_marquee_link_product" value="0">
+                                    <input type="checkbox" id="mrv_widget_marquee_link_product" name="mrv_widget_marquee_link_product" value="1" <?php checked($link_product); ?>>
+                                    <span class="mrv-toggle-slider"></span>
+                                </label>
+                                <span class="mrv-toggle-text"><?php esc_html_e('Link images to product pages', 'shopvision'); ?></span>
+                            </div>
                         </div>
 
                         <!-- Image count status -->
@@ -2145,68 +2163,6 @@ class MRV_Settings {
                 <?php submit_button(__('Save Changes', 'shopvision'), 'primary', 'submit', false); ?>
             </div>
         </form>
-
-        <style>
-            .mrv-widget-settings { transition: opacity 0.3s ease; }
-            .mrv-grid { display: grid; gap: 24px; }
-            .mrv-grid-2 { grid-template-columns: repeat(2, 1fr); }
-            @media (max-width: 1024px) { .mrv-grid-2 { grid-template-columns: 1fr; } }
-            .mrv-widget-section h3.mrv-section-title {
-                font-size: 14px;
-                font-weight: 600;
-                color: #374151;
-                margin: 0 0 16px 0;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-            .mrv-shortcode-box {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                background: #f3f4f6;
-                padding: 12px 16px;
-                border-radius: 8px;
-            }
-            .mrv-shortcode-box code {
-                flex: 1;
-                font-size: 14px;
-                background: none;
-                padding: 0;
-            }
-            .mrv-copy-btn {
-                padding: 8px 16px;
-                background: #2563eb;
-                color: white;
-                border: none;
-                border-radius: 6px;
-                font-size: 13px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: background 0.2s;
-            }
-            .mrv-copy-btn:hover { background: #1d4ed8; }
-            .mrv-input-with-suffix {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-            .mrv-input-suffix {
-                color: #6b7280;
-                font-size: 13px;
-            }
-            .mrv-widget-preview-container {
-                border: 1px solid #e5e7eb;
-                border-radius: 8px;
-                overflow: hidden;
-                background: #f9fafb;
-            }
-            .mrv-widget-preview {
-                transform: scale(0.5);
-                transform-origin: top left;
-                width: 200%;
-                pointer-events: none;
-            }
-        </style>
         <?php
     }
 

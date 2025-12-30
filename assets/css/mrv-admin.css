@@ -2145,3 +2145,90 @@
     font-size: 13px;
     line-height: 1.5;
 }
+
+/* ========================================
+   WIDGET SETTINGS TAB
+   ======================================== */
+
+.mrv-widget-settings {
+    transition: opacity 0.3s ease;
+}
+
+.mrv-grid {
+    display: grid;
+    gap: 24px;
+}
+
+.mrv-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 1024px) {
+    .mrv-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.mrv-widget-section {
+    padding: 0;
+}
+
+.mrv-widget-section h3.mrv-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    margin: 0 0 16px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mrv-shortcode-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f3f4f6;
+    padding: 12px 16px;
+    border-radius: 8px;
+}
+
+.mrv-shortcode-box code {
+    flex: 1;
+    font-size: 14px;
+    background: none;
+    padding: 0;
+    color: #374151;
+}
+
+.mrv-copy-btn {
+    padding: 8px 16px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.mrv-copy-btn:hover {
+    background: #1d4ed8;
+}
+
+.mrv-input-with-suffix {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mrv-input-suffix {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.mrv-widget-preview-container {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f9fafb;
+}
