@@ -2029,6 +2029,13 @@ class MRV_Settings {
                                 </div>
 
                                 <div class="mrv-color-field">
+                                    <label class="mrv-field-label"><?php esc_html_e('Overlay Background', 'shopvision'); ?></label>
+                                    <input type="text" id="mrv_widget_marquee_overlay_color" name="mrv_widget_marquee_overlay_color"
+                                           value="<?php echo esc_attr($overlay_color); ?>" class="mrv-color-picker-alpha" data-default-color="rgba(0,0,0,0.6)">
+                                    <p class="mrv-field-description"><?php esc_html_e('Background of the text box. Use rgba for transparency, e.g. rgba(0,0,0,0.6)', 'shopvision'); ?></p>
+                                </div>
+
+                                <div class="mrv-color-field">
                                     <label class="mrv-field-label"><?php esc_html_e('Text Color', 'shopvision'); ?></label>
                                     <input type="text" id="mrv_widget_marquee_text_color" name="mrv_widget_marquee_text_color"
                                            value="<?php echo esc_attr($text_color); ?>" class="mrv-color-picker" data-default-color="#ffffff">

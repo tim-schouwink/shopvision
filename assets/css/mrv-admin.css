@@ -2238,3 +2238,10 @@
     overflow: hidden;
     background: #f9fafb;
 }
+
+/* Alpha Color Picker (text input for rgba values) */
+.mrv-color-picker-alpha {
+    width: 200px !important;
+    font-family: 'SF Mono', Monaco, 'Consolas', monospace;
+    font-size: 13px;
+}
