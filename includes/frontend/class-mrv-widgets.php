@@ -182,9 +182,9 @@ class MRV_Widgets {
             $row2_images = $row1_images;
         }
 
-        // Duplicate images 3x for seamless loop
-        $row1_images = array_merge($row1_images, $row1_images, $row1_images);
-        $row2_images = array_merge($row2_images, $row2_images, $row2_images);
+        // Duplicate images 2x for seamless loop (animation scrolls exactly 50%)
+        $row1_images = array_merge($row1_images, $row1_images);
+        $row2_images = array_merge($row2_images, $row2_images);
 
         ob_start();
         ?>
