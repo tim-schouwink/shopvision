@@ -325,21 +325,24 @@ class MRV_Conversion_Tracker {
             'status'     => ['completed', 'processing'],
         ];
 
-        // Add date filter if applicable
+        // Add date filter if applicable - WooCommerce expects date strings, not timestamps
         if (!empty($date_query)) {
             $after = $date_query[0]['after'] ?? null;
             $before = $date_query[0]['before'] ?? null;
 
-            if ($after) {
-                $order_args['date_created'] = '>' . strtotime($after);
-            }
-            if ($before) {
-                // Combine with after if both present
-                if ($after) {
-                    $order_args['date_created'] = strtotime($after) . '...' . strtotime($before);
-                } else {
-                    $order_args['date_created'] = '<' . strtotime($before);
-                }
+            if ($after && $before) {
+                // Date range: convert relative dates to absolute dates
+                $after_date = gmdate('Y-m-d', strtotime($after));
+                $before_date = gmdate('Y-m-d', strtotime($before));
+                $order_args['date_created'] = $after_date . '...' . $before_date;
+            } elseif ($after) {
+                // After only: use >= format
+                $after_date = gmdate('Y-m-d', strtotime($after));
+                $order_args['date_created'] = '>=' . $after_date;
+            } elseif ($before) {
+                // Before only: use < format
+                $before_date = gmdate('Y-m-d', strtotime($before));
+                $order_args['date_created'] = '<' . $before_date;
             }
         }
 

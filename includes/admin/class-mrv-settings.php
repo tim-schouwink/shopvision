@@ -1683,30 +1683,42 @@ class MRV_Settings {
             <p class="mrv-card-description" style="color: #6b7280; margin: 0 0 16px 0; font-size: 13px;">
                 <?php esc_html_e('Lifetime totals including visualizations that have been automatically deleted.', 'shopvision'); ?>
             </p>
-            <div class="mrv-analytics-stats" style="margin: 0;">
-                <div class="mrv-analytics-card">
-                    <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($alltime_stats['total'])); ?></div>
-                    <div class="mrv-analytics-label"><?php esc_html_e('Visualizations', 'shopvision'); ?></div>
+
+            <!-- Visualization Stats -->
+            <div class="mrv-alltime-section">
+                <h4 class="mrv-alltime-section-title"><?php esc_html_e('Visualizations', 'shopvision'); ?></h4>
+                <div class="mrv-analytics-stats" style="margin: 0;">
+                    <div class="mrv-analytics-card">
+                        <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($alltime_stats['total'])); ?></div>
+                        <div class="mrv-analytics-label"><?php esc_html_e('Total', 'shopvision'); ?></div>
+                    </div>
+                    <div class="mrv-analytics-card">
+                        <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($alltime_stats['approved'])); ?></div>
+                        <div class="mrv-analytics-label"><?php esc_html_e('Approved', 'shopvision'); ?></div>
+                    </div>
+                    <div class="mrv-analytics-card">
+                        <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($alltime_stats['not_approved'])); ?></div>
+                        <div class="mrv-analytics-label"><?php esc_html_e('Not Approved', 'shopvision'); ?></div>
+                    </div>
                 </div>
-                <div class="mrv-analytics-card">
-                    <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($alltime_stats['approved'])); ?></div>
-                    <div class="mrv-analytics-label"><?php esc_html_e('Approved', 'shopvision'); ?></div>
-                </div>
-                <div class="mrv-analytics-card">
-                    <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($alltime_stats['not_approved'])); ?></div>
-                    <div class="mrv-analytics-label"><?php esc_html_e('Not Approved', 'shopvision'); ?></div>
-                </div>
-                <div class="mrv-analytics-card">
-                    <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($alltime_conversions['conversions'])); ?></div>
-                    <div class="mrv-analytics-label"><?php esc_html_e('Conversions', 'shopvision'); ?></div>
-                </div>
-                <div class="mrv-analytics-card">
-                    <div class="mrv-analytics-value"><?php echo esc_html($currency . number_format_i18n($alltime_conversions['revenue'], 2)); ?></div>
-                    <div class="mrv-analytics-label"><?php esc_html_e('Revenue', 'shopvision'); ?></div>
-                </div>
-                <div class="mrv-analytics-card">
-                    <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($alltime_whatsapp)); ?></div>
-                    <div class="mrv-analytics-label"><?php esc_html_e('WhatsApp Quotes', 'shopvision'); ?></div>
+            </div>
+
+            <!-- Conversion Stats -->
+            <div class="mrv-alltime-section" style="margin-top: 20px;">
+                <h4 class="mrv-alltime-section-title"><?php esc_html_e('Conversions & Engagement', 'shopvision'); ?></h4>
+                <div class="mrv-analytics-stats" style="margin: 0;">
+                    <div class="mrv-analytics-card">
+                        <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($alltime_conversions['conversions'])); ?></div>
+                        <div class="mrv-analytics-label"><?php esc_html_e('Conversions', 'shopvision'); ?></div>
+                    </div>
+                    <div class="mrv-analytics-card">
+                        <div class="mrv-analytics-value"><?php echo esc_html($currency . number_format_i18n($alltime_conversions['revenue'], 2)); ?></div>
+                        <div class="mrv-analytics-label"><?php esc_html_e('Revenue', 'shopvision'); ?></div>
+                    </div>
+                    <div class="mrv-analytics-card">
+                        <div class="mrv-analytics-value"><?php echo esc_html(number_format_i18n($alltime_whatsapp)); ?></div>
+                        <div class="mrv-analytics-label"><?php esc_html_e('WhatsApp Quotes', 'shopvision'); ?></div>
+                    </div>
                 </div>
             </div>
         </div>
