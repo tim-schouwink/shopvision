@@ -55,6 +55,7 @@ class MRV_Generations_List extends WP_List_Table {
     public function get_bulk_actions(): array {
         return [
             'approve' => __('Approve', 'shopvision'),
+            'feature' => __('Feature', 'shopvision'),
             'reject'  => __('Reject', 'shopvision'),
             'delete'  => __('Delete', 'shopvision'),
         ];
@@ -86,6 +87,12 @@ class MRV_Generations_List extends WP_List_Table {
             case 'approve':
                 foreach ($ids as $id) {
                     MRV_Post_Types::update_consent($id, 'approved');
+                }
+                break;
+
+            case 'feature':
+                foreach ($ids as $id) {
+                    MRV_Post_Types::update_consent($id, 'featured');
                 }
                 break;
 
@@ -179,20 +186,74 @@ class MRV_Generations_List extends WP_List_Table {
     }
 
     /**
-     * Thumbnail column
+     * Thumbnail column with row actions
      */
     public function column_thumbnail($item): string {
         $image_url = get_post_meta($item->ID, '_mrv_image_url', true);
+        $current_status = get_post_meta($item->ID, '_mrv_consent_status', true) ?: 'pending';
 
         if (!$image_url) {
-            return '<span class="mrv-no-image">—</span>';
+            $thumbnail = '<span class="mrv-no-image">—</span>';
+        } else {
+            $thumbnail = sprintf(
+                '<a href="%s" target="_blank" class="mrv-thumbnail-link"><img src="%s" alt="" class="mrv-admin-thumbnail" /></a>',
+                esc_url($image_url),
+                esc_url($image_url)
+            );
         }
 
-        return sprintf(
-            '<a href="%s" target="_blank" class="mrv-thumbnail-link"><img src="%s" alt="" class="mrv-admin-thumbnail" /></a>',
-            esc_url($image_url),
-            esc_url($image_url)
+        // Build row actions
+        $actions = [];
+        $base_url = add_query_arg([
+            'page' => 'shopvision',
+            'tab'  => 'generations',
+        ], admin_url('admin.php'));
+
+        // Show actions based on current status
+        if ($current_status !== 'approved') {
+            $actions['approve'] = sprintf(
+                '<a href="%s">%s</a>',
+                esc_url(wp_nonce_url(add_query_arg([
+                    'action'     => 'approve',
+                    'generation' => $item->ID,
+                ], $base_url), 'bulk-' . $this->_args['plural'])),
+                esc_html__('Approve', 'shopvision')
+            );
+        }
+
+        if ($current_status !== 'featured') {
+            $actions['feature'] = sprintf(
+                '<a href="%s" style="color: #8b5cf6;">%s</a>',
+                esc_url(wp_nonce_url(add_query_arg([
+                    'action'     => 'feature',
+                    'generation' => $item->ID,
+                ], $base_url), 'bulk-' . $this->_args['plural'])),
+                esc_html__('Feature', 'shopvision')
+            );
+        }
+
+        if ($current_status !== 'rejected') {
+            $actions['reject'] = sprintf(
+                '<a href="%s">%s</a>',
+                esc_url(wp_nonce_url(add_query_arg([
+                    'action'     => 'reject',
+                    'generation' => $item->ID,
+                ], $base_url), 'bulk-' . $this->_args['plural'])),
+                esc_html__('Reject', 'shopvision')
+            );
+        }
+
+        $actions['delete'] = sprintf(
+            '<a href="%s" class="submitdelete" onclick="return confirm(\'%s\');">%s</a>',
+            esc_url(wp_nonce_url(add_query_arg([
+                'action'     => 'delete',
+                'generation' => $item->ID,
+            ], $base_url), 'bulk-' . $this->_args['plural'])),
+            esc_js(__('Are you sure you want to delete this?', 'shopvision')),
+            esc_html__('Delete', 'shopvision')
         );
+
+        return $thumbnail . $this->row_actions($actions);
     }
 
     /**
